@@ -1,0 +1,10 @@
+services:
+  api:
+    build: .
+    command: ["/app/api_start.sh"]
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      oracle_password: ${oracle_password}
