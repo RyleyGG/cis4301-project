@@ -5,19 +5,6 @@ from fastapi.encoders import jsonable_encoder
 from pydantic import parse_obj_as, TypeAdapter
 from pydantic.v1.main import ModelMetaclass
 from sqlalchemy import TypeDecorator, JSON
-from sqlmodel import Session, create_engine
-
-from services.config_service import config
-
-
-dbUrl = f'postgresql://postgres:{config.postgres_password}@db:5432/postgres'
-engine = create_engine(dbUrl)
-
-
-def get_session():
-    with Session(engine) as session:
-        yield session
-
 
 # This method borrowed from Maximilian Franz
 # Code located here: https://github.com/tiangolo/sqlmodel/issues/63

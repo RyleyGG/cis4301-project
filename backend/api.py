@@ -2,10 +2,8 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sqlmodel import SQLModel
 
 from routers import dummy_router
-from services.api_utility_service import engine
 
 
 @asynccontextmanager
