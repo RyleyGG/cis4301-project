@@ -15,6 +15,7 @@ else:
 
 
 class Config(BaseSettings):
+    oracle_username: str = ''
     oracle_password: str = ''
     model_config = SettingsConfigDict(env_file=env_dir / '.env', from_attributes=True, extra='allow')
 config: Config = Config()

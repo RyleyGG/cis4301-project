@@ -4,7 +4,19 @@ from typing import Generic, T
 from fastapi.encoders import jsonable_encoder
 from pydantic import parse_obj_as, TypeAdapter
 from pydantic.v1.main import ModelMetaclass
-from sqlalchemy import TypeDecorator, JSON
+from sqlalchemy import TypeDecorator, JSON, create_engine
+from sqlmodel import Session
+
+from services.config_service import config
+
+DATABASE_URL = f'oracle+oracledb://{config.oracle_username}:{config.oracle_password}@oracle.cise.ufl.edu:1521/orcl'
+engine = create_engine(DATABASE_URL)
+
+
+def get_session():
+    with Session(engine) as session:
+        yield session
+
 
 # This method borrowed from Maximilian Franz
 # Code located here: https://github.com/tiangolo/sqlmodel/issues/63
