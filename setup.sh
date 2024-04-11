@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ ! -f .env ]; then
+if [ ! -f ./backend/.env ]; then
     echo "Creating .env file with default values..."
 
     oracle_username=$(dd if=/dev/urandom bs=32 count=1 2>/dev/null | base64)
