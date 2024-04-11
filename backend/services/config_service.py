@@ -6,7 +6,7 @@ from os import path
 
 config_dir = Path(__file__).parent.parent.parent / 'config'
 cwd = Path(__file__).parent.parent
-parent_dir = Path(__file__).parent.parent.parent
+parent_dir = Path(__file__).parent.parent
 env_dir = None
 if path.isdir(config_dir):
     env_dir = config_dir
@@ -19,5 +19,6 @@ class Config(BaseSettings):
     oracle_password: str = ''
     model_config = SettingsConfigDict(env_file=env_dir / '.env', from_attributes=True, extra='allow')
 config: Config = Config()
+
 
 logger.add(cwd / 'logs' / f'{str(int(datetime.now().timestamp()))}.log')
