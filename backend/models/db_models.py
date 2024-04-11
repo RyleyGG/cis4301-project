@@ -40,7 +40,7 @@ class FireIncident(SQLModel, table=True):
 class ReportingAgency(SQLModel, table=True):
     __tablename__ = 'ReportingAgency'
     agency_code: str = Field(sa_column=Column(String(255), primary_key=True))
-    reporting_unit_id: int = Field()
+    reporting_unit_id: Optional[int] = Field(default=None, foreign_key='NWCGUnit.unit_id')
     reporting_unit_code: str = Field(sa_column=Column(String(50)))
 
 
