@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ButtonModule} from 'primeng/button';
 import {RouterLink} from '@angular/router';
+import {CardModule} from "primeng/card";
 
 /**
  * The landing page component, it is an 'advertising' page of sorts.
@@ -9,7 +10,7 @@ import {RouterLink} from '@angular/router';
 @Component({
   selector: 'landing-page',
   standalone: true,
-  imports: [CommonModule, ButtonModule, RouterLink],
+  imports: [CommonModule, ButtonModule, RouterLink, CardModule],
   templateUrl: './landing.page.component.html',
   styleUrl: './landing.page.component.css'
 })
