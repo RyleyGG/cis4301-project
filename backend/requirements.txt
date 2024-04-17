@@ -12,4 +12,3 @@ pytest
 httpx
 loguru
 oracledb
-sqlite3
