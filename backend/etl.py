@@ -123,18 +123,18 @@ def main():
     cursor = sqlite_connection.cursor()
 
     # Perform ETL tasks
-    print('Starting database migration... this may take a while\n')
-    print('Loading NWCG Unit data...')
+    print('Starting database migration... this may take a while\n', flush=True)
+    print('Loading NWCG Unit data...', flush=True)
     load_nwcg_unit_data(cursor, session)
-    print('Loading Reporting Agency data...')
+    print('Loading Reporting Agency data...', flush=True)
     load_reporting_agency_data(cursor, session)
-    print('Loading Fire data...')
+    print('Loading Fire data...', flush=True)
     load_fire_data(cursor, session)
     fire_count = select(func.count()).select_from(FireIncident)
     nwcg_count = select(func.count()).select_from(NWCGUnit)
     reporting_agency_count = select(func.count()).select_from(ReportingAgency)
     total = session.exec(fire_count).one() + session.exec(nwcg_count).one() + session.exec(reporting_agency_count).one()
-    print(f'\nETL complete! The total number of rows in the database is: {total}')
+    print(f'\nETL complete! The total number of rows in the database is: {total}', flush=True)
 
 
 if __name__ == '__main__':
