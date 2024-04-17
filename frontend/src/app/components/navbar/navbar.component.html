@@ -1,7 +1,11 @@
 <div class="flex-container">
-  <h1 [routerLink]="['/dashboard']">CIS4301</h1>
+  <h1 [routerLink]="['/']">CIS4301</h1>
+  <h1 [routerLink]="['/']">Home</h1>
   <p-toolbar>
-    <p-button [rounded]="true" label="Light" icon='pi pi-bolt' (click)="swapTheme()" onLabel="Dark"
-              offLabel="Light"></p-button>
+    <p-button
+      
+      (click)="swapTheme()"
+      
+    ><h1>Light</h1></p-button>
   </p-toolbar>
 </div>

@@ -1,17 +1,85 @@
-<div class="grid" style="background-color: var(--surface-section); color: var(--surface-800);">
-  <div class="" style="padding: 3rem; text-align: left; display: flex; align-items: center;">
+<div
+  class="grid"
+  style="background-color: var(--surface-section); color: var(--surface-800); display: flex; justify-content: center; align-items: center; height: 100vh;"
+>
+  <div
+    class=""
+    style="padding: 3rem; text-align: center; display: flex; flex-direction: column; align-items: center"
+  >
     <section>
-      <span style="font-weight: 700; font-size: 3rem; display: block;">Navigate</span>
-      <div style="font-weight: 700; color: var(--primary-color); font-size: 3rem; margin-bottom: 1rem;">
-        to the analytics below
+      <span style="font-weight: 700; font-size: 3rem; display: block"
+        >Welcome</span
+      >
+      <div
+        style="
+          font-weight: 700;
+          color: var(--primary-color);
+          font-size: 3rem;
+          margin-bottom: 1rem;
+        "
+      >
+        Explore Wildfire Analytics
       </div>
-      <p style="color: var(--surface-700); line-height: 1.5; margin-bottom: 1.5rem; font-size: 1.25rem;">View trends
-        data</p>
-
-      <button pButton pRipple label="Button1" type="button" class="p-button-raised"
-              style="margin-right: 1.5em;"></button>
-      <button pButton pRipple label="Button2" type="button" class="p-button-outlined"
-              [routerLink]="['/landing']"></button>
+      <p
+        style="
+          color: var(--surface-700);
+          line-height: 1.5;
+          margin-bottom: 1.5rem;
+          font-size: 1.25rem;
+        "
+      >
+        Select a category to view data and trends:
+      </p>
+      <div style="margin-bottom: 1em;">
+        <button
+          pButton
+          pRipple
+          label="Wildfires: Changes in Size and Frequency"
+          type="button"
+          class="p-button-raised"
+          [routerLink]="['/wildfire-changes-in-size-and-frequency']"
+        ></button>
+      </div>
+      <div style="margin-bottom: 1em;">
+        <button
+          pButton
+          pRipple
+          label="Wildfire Types Based on Geography"
+          type="button"
+          class="p-button-raised"
+          [routerLink]="['/wildfire-types-geography']"
+        ></button>
+      </div>
+      <div style="margin-bottom: 1em;">
+        <button
+          pButton
+          pRipple
+          label="Agency Containment Time vs Wildfire Size"
+          type="button"
+          class="p-button-raised"
+          [routerLink]="['/containment-vs-size']"
+        ></button>
+      </div>
+      <div style="margin-bottom: 1em;">
+        <button
+          pButton
+          pRipple
+          label="Size of Wildfire Types"
+          type="button"
+          class="p-button-raised"
+          [routerLink]="['/wildfire-types-size']"
+        ></button>
+      </div>
+      <div>
+        <button
+          pButton
+          pRipple
+          label="Wildfire Sizes Based on Geography"
+          type="button"
+          class="p-button-raised"
+          [routerLink]="['/wildfire-sizes-geography']"
+        ></button>
+      </div>
     </section>
   </div>
 </div>

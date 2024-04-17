@@ -1,0 +1,90 @@
+<div
+  class="grid"
+  style="
+    background-color: var(--surface-section);
+    color: var(--surface-800);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  "
+>
+  <div
+    class=""
+    style="
+      padding: 3rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    "
+  >
+    <section>
+      <div>
+        <span style="font-weight: 700; font-size: 3rem; display: block"
+          >Wildfire Types Based on Geography</span
+        >
+      </div>
+      <p
+        style="
+          color: var(--surface-700);
+          line-height: 1.5;
+          margin-bottom: 1.5rem;
+          font-size: 1.25rem;
+        "
+      >
+        Select a category to view data and trends:
+      </p>
+      <div>
+        <div>
+          <label for="timeRangeStart">Time Range Start:</label>
+          <select id="timeRangeStart">
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+            <input type="text" placeholder="User Input" />
+            <!-- Add more options as needed -->
+          </select>
+          <input type="text" placeholder="User Input" />
+        </div>
+        <br />
+        <div>
+          <label for="timeRangeEnd">Time Range End:</label>
+          <select id="timeRangeEnd">
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+            <!-- Add more options as needed -->
+          </select>
+
+          <input type="text" placeholder="User Input" />
+        </div>
+        <br />
+        <div>
+          <label for="Geographic Area">Geographic Area: </label>
+          <input type="text" placeholder="Geographic Area" />
+        </div>
+        <br />
+        <div>
+          <label for="Wildfire Type">Wildfire Type: </label>
+          <input type="text" placeholder="Wildfire Type" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Container for the graphical trend data -->
+    <div
+      id="chartContainer"
+      style="
+        margin-top: 2rem;
+        width: 100%;
+        max-width: 1000px;
+        height: 600px;
+        background-color: white;
+        border: 1px solid #cccccc;
+      "
+    >
+      <!-- The chart will be rendered inside this div -->
+    </div>
+  </div>
+</div>
