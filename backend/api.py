@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import SQLModel, Session, select
 from models.db_models import Dummy
 
-from routers import dummy_router
+from routers import dummy_router, fire_incident_router, trend_router
 from services.api_utility_service import engine, get_session
 
 
@@ -18,6 +18,8 @@ app = FastAPI(
 )
 
 app.include_router(dummy_router.router, prefix='/dummy', tags=['Dummy'])
+app.include_router(trend_router.router, prefix='/trends', tags=['Trends'])
+app.include_router(fire_incident_router.router, prefix='/fire_incidents', tags=['FireIncidents'])
 
 origins = ["*"]
 app.add_middleware(
