@@ -22,7 +22,9 @@
 NOTE: if on Windows, shell scripts should be run in Git Bash to ensure compatibility.
 
 ### Running the ETL
-Download the [dataset](https://www.kaggle.com/datasets/rtatman/188-million-us-wildfires) from Kaggle and place in the backend directory with a rename of "kaggle-db.sqlite". Then run the ETL script from the backend.
+1. Download the [dataset](https://www.kaggle.com/datasets/rtatman/188-million-us-wildfires) from Kaggle and place in the backend directory with a rename of "kaggle-db.sqlite".
+2. Enable the Gatorlink VPN and ensure that your .env file has the proper credentials to connect to the Oracle DB.
+3. Activate the Python venv & run the ETL script from the backend.
 
 ### Running CompoDoc Documentation
 This project utilizes CompoDoc to automatically generate documentation for the Angular web application. To run this documentation
