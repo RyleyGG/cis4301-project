@@ -1,14 +1,15 @@
 #!/bin/bash
 
-if [ ! -f .env ]; then
+if [ ! -f ./backend/.env ]; then
     echo "Creating .env file with default values..."
 
     oracle_username=$(dd if=/dev/urandom bs=32 count=1 2>/dev/null | base64)
     oracle_password=$(dd if=/dev/urandom bs=32 count=1 2>/dev/null | base64)
 
-    echo "oracle_username=$oracle_username" >> .env
-    echo "oracle_password=$oracle_password" >> .env
+    echo "oracle_username=$oracle_username" >> ./backend/.env
+    echo "oracle_password=$oracle_password" >> ./backend/.env
 fi
+exit
 
 if [ ! -d ./backend/.venv ]; then
     echo "Creating and initializing python virtual environment..."
