@@ -16,6 +16,7 @@ backend/services/__pycache__
 backend/.venv
 backend/logs/*
 !backend/logs/.gitkeep
+kaggle_db.sqlite
 
 # frontend
 frontend/dist
