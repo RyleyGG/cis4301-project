@@ -1,0 +1,20 @@
+<div class="flex flex-column gap-2" *ngIf="dataReady">
+  <div class="flex flex-row gap-2">
+    <p-card header="Fire Incident Size" class="col-4">
+      {{ fireIncidentSize$() }}
+    </p-card>
+    <p-card header="NCWG Unit Size" class="col-4">
+      {{ nwcgUnitSize$() }}
+    </p-card>
+    <p-card header="Reporting Agency Size" class="col-4">
+      {{ reportingAgencySize$() }}
+    </p-card>
+  </div>
+  <p-card header="Total Size" class="col-12">
+    {{ totalSize$() }}
+  </p-card>
+</div>
+
+<div *ngIf="!dataReady">
+  <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+</div>
