@@ -1,27 +1,67 @@
-.grid {
+.content-section {
+    max-width: 1200px; /* Adjusted for larger container width */
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+    background-color: #f8f9fa;
+  }
+  
+  .flex-container {
     display: flex;
-    flex-wrap: wrap;
-    margin-right: 0;
-    margin-left: 0;
-    margin-top: 0;
-}
-
-.hero-column {
-    flex: 0 0 auto;
-    padding: 0;
-    width: 50%;
-}
-
-.feature-column {
-    flex: 0 0 auto;
-    padding: 0;
-    width: 33%;
-}
-
-.feature-icon-box {
-    display: inline-block;
-    padding: 1rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.12);
-    background-color: var(--surface-card);
-}
+    justify-content: space-around; /* Even spacing around the items */
+    align-items: start; /* Align items to the start of the flex container */
+  }
+  
+  .form-container {
+    flex: 1; /* Takes up half of the flex-container */
+    margin-right: 20px; /* Space between the form and the chart */
+  }
+  
+  .chart-container {
+    flex: 1; /* Allows the chart container to take up the other half */
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 454px;
+  }
+  
+  h1 {
+    font-weight: 700;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .description {
+    color: var(--surface-700);
+    line-height: 1.5;
+    margin-bottom: 2rem;
+    font-size: 1.25rem;
+  }
+  
+  .card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn-primary {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
