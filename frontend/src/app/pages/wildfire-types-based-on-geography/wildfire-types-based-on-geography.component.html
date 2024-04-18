@@ -13,11 +13,11 @@
       </div>
       <div class="card">
         <label for="geographicArea">Geographic Area (Optional):</label>
-        <input id="geographicArea" type="text" placeholder="Geographic Area" />
+        <input id="geographicArea" type="text" [(ngModel)]="geographicArea" name="geographicArea" placeholder="Geographic Area" />
       </div>
       <div class="card">
         <label for="wildfireType">Wildfire Type (Optional):</label>
-        <input id="wildfireType" type="text" placeholder="Wildfire Type" />
+        <input id="wildfireType" type="text" [(ngModel)]="wildfireType" name="wildfireType" placeholder="Wildfire Type" />
       </div>
       <div class="card">
         <button type="submit" class="btn-primary">View Results</button>
