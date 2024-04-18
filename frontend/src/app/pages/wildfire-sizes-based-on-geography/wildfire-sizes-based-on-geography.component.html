@@ -12,7 +12,7 @@
         <p-calendar [(ngModel)]="endDate" name="endDate"></p-calendar>
       </div>
       <div class="card">
-        <label for="geographicArea">Geographic Area (Optional):</label>
+        <label for="geographicArea">*Geographic Area (Optional):</label>
         <input id="geographicArea" type="text" placeholder="Geographic Area" />
       </div>
       <div class="card">
@@ -23,6 +23,14 @@
       <p-chart type="line" [data]="data" [options]="options"></p-chart>
     </div>
   </div>
+  <div>
+    *(CAMBCIFC=Canadian Interagency Forest Fire Centre, USAKCC=Alaska Interagency
+    Coordination Center, USCAONCC=Northern California Area Coordination Center,
+    USCAOSCC=Southern California Coordination Center, USCORMCC=Rocky Mountain
+    Area Coordination Center, USGASAC=Southern Area Coordination Center,
+    USIDNIC=National Interagency Coordination Center, USMTNRC=Northern Rockies
+    Coordination Center, USNMSWC=Southwest Area Coordination Center,
+    USORNWC=Northwest Area Coordination Center, USUTGBC=Western Great Basin
+    Coordination Center, USWIEACC=Eastern Area Coordination Center)
+  </div>
 </form>
-
-
