@@ -13,11 +13,39 @@
       </div>
       <div class="card">
         <label for="geographicArea">Geographic Area (Optional):</label>
-        <input id="geographicArea" type="text" [(ngModel)]="geographicArea" name="geographicArea" placeholder="Geographic Area" />
+        <select name="geographicArea" id="geographicArea" [(ngModel)]="geographicArea" class="form-control">
+          <option value="">Select a Region</option>
+          <option value="NA">NA - National</option>
+          <option value="IN">IN - International</option>
+          <option value="AK">AK - Alaska</option>
+          <option value="CA">CA - California</option>
+          <option value="EA">EA - Eastern Area</option>
+          <option value="GB">GB - Great Basin</option>
+          <option value="NR">NR - Northern Rockies</option>
+          <option value="NW">NW - Northwest</option>
+          <option value="RM">RM - Rocky Mountain</option>
+          <option value="SA">SA - Southern Area</option>
+          <option value="SW">SW - Southwest</option>
+        </select>
       </div>
       <div class="card">
         <label for="wildfireType">Wildfire Type (Optional):</label>
-        <input id="wildfireType" type="text" [(ngModel)]="wildfireType" name="wildfireType" placeholder="Wildfire Type" />
+        <select name="wildfireType" id="wildfireType" [(ngModel)]="wildfireType" class="form-control">
+          <option value="">Select a Fire Cause</option>
+          <option value="Powerline">Powerline</option>
+          <option value="Equipment Use">Equipment Use</option>
+          <option value="Arson">Arson</option>
+          <option value="Missing/Undefined">Missing/Undefined</option>
+          <option value="Fireworks">Fireworks</option>
+          <option value="Campfire">Campfire</option>
+          <option value="Railroad">Railroad</option>
+          <option value="Lightning">Lightning</option>
+          <option value="Miscellaneous">Miscellaneous</option>
+          <option value="Structure">Structure</option>
+          <option value="Children">Children</option>
+          <option value="Debris Burning">Debris Burning</option>
+          <option value="Smoking">Smoking</option>
+        </select>
       </div>
       <div class="card">
         <button type="submit" class="btn-primary">View Results</button>
