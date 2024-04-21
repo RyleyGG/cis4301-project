@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { CalendarModule } from 'primeng/calendar';
-import { ChartModule } from 'primeng/chart';
-import { HttpClient } from '@angular/common/http';  // Make sure to import HttpClient
+import {Component, signal, WritableSignal} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {CalendarModule} from 'primeng/calendar';
+import {ChartModule} from 'primeng/chart';
+import {HttpClient} from '@angular/common/http';
+import {wildfireSizeBasedOnGeoFilters} from "../../core/models/trend_query_dto.interface";
+import {TrendQueryService} from "../../core/services/trend_query_service";
+import {take} from "rxjs";  // Make sure to import HttpClient
 
 
 @Component({
@@ -20,24 +23,20 @@ export class WildfireSizesBasedOnGeographyComponent {
   geographicArea: string = '';
   wildfireType: string = '';
 
+  chartLabels$: WritableSignal<string[]> = signal([]);
+  chartDatasets$: WritableSignal<any[]> = signal([]);
+
   data: any;
   options: any;
 
-  constructor(private http: HttpClient) {  // Inject HttpClient here
-    this.initializeChartData();
+  constructor(private http: HttpClient, private trendQueryService: TrendQueryService) {
+    // this.initializeChartData();
   }
 
   initializeChartData() {
     this.data = {
-      labels: ['2000', '2001', '2002', '2003', '2004', '2005', '2006'],
-      datasets: [
-        {
-          label: 'Demo Data',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
-          borderColor: '#42A5F5'
-        }
-      ]
+      labels: this.chartLabels$(),
+      datasets: this.chartDatasets$()
     };
     this.options = {
       responsive: true,
@@ -49,17 +48,32 @@ export class WildfireSizesBasedOnGeographyComponent {
       }
     };
   }
-  
+
   submitsSizesForm() {
-    const formData = {
-      startDate: this.startDate,
-      endDate: this.endDate,
-      geographicArea: this.geographicArea,
+    const formData: wildfireSizeBasedOnGeoFilters = {
+      start_date: this.startDate,
+      end_date: this.endDate,
+      geographic_area: this.geographicArea,
     };
-  
-    this.http.post('http://127.0.0.1:8000/dummy/size-of-wildfire-based-on-geographic-area-form-submission', formData).subscribe({
-      next: (response) => console.log('Form submitted successfully', response),
-      error: (error) => console.error('Error submitting form', error)
-    });
+
+    // TODO: define signals and integrate into API requests
+    this.trendQueryService.getWildFireSizeBasedOnGeo(formData)
+      .pipe((take(1)))
+      .subscribe((res) => {
+        console.log(res);
+
+        // TODO: integrate live result data into signal computation
+        this.chartLabels$.set(['2000', '2001', '2002', '2003', '2004', '2005', '2006']);
+        this.chartDatasets$.set([
+          {
+            label: 'Demo Data',
+            data: [65, 59, 80, 81, 56, 55, 40],
+            fill: false,
+            borderColor: '#42A5F5'
+          }
+        ]);
+
+        this.initializeChartData();
+      });
   }
-  }
+}
