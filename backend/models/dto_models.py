@@ -1,3 +1,4 @@
+from datetime import datetime
 from enum import Enum
 from pydantic import BaseModel, UUID4
 from typing import Optional, List
@@ -14,3 +15,9 @@ class TblSizeResp(BaseModel):
     nwcg_unit_size: int
     reporting_agency_size: int
     total_size: int
+
+
+class wildfireSizeBasedOnGeoFilters(BaseModel):
+    startDate: datetime
+    endDate: datetime
+    geographicArea: str = None

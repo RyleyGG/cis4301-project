@@ -7,15 +7,6 @@ from datetime import datetime
 
 router = APIRouter()
 
-class FormData(BaseModel):
-    startDate: datetime
-    endDate: datetime
-    agency: Optional[str] = None
-    wildfireType: Optional[str] = None
-    geographicArea: Optional[str] = None
-
-submissions: List[FormData] = []
-
 
 @router.get("/")
 async def root():
