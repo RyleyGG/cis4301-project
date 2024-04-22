@@ -1,4 +1,5 @@
 from datetime import datetime
+from sqlmodel import SQLModel, Field
 from enum import Enum
 from pydantic import BaseModel, UUID4
 from typing import Optional, List
@@ -8,6 +9,7 @@ class FireIncidentFilters(BaseModel):
     size_category: Optional[str] = None
     year_of_fire_max: Optional[int] = None
     year_of_fire_min: Optional[int] = None
+
 
 
 class TblSizeResp(BaseModel):
@@ -25,6 +27,14 @@ class WildfireTypesBasedOnGeoFilters(BaseModel):
     end_date: datetime
     geographic_area: str
     wildfire_type: str
+    
+class WildfireTypesBasedOnGeo(BaseModel):
+    year_of_fire: int 
+    wildfire_type: str
+    avg_fire_size: int 
+    total_number_of_fires: int
+    total_fires_size: int 
+    fire_type: int 
 
 class AgencyContaintmentTimeFilters(BaseModel):
     start_date: datetime
