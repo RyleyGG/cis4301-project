@@ -123,7 +123,7 @@ async def get_fire_reports(filters: AgencyContaintmentTimeFilters, db: Session =
     conditions = [
         f"YEAR_OF_FIRE >= {filters.start_date.year}",
         f"YEAR_OF_FIRE <= {filters.end_date.year}",
-        f"AGENCY_CODE_ID = '{filters.reporting_agency}'",
+        f"AGENCY_NAME = '{filters.reporting_agency}'",
     ]
 
     if conditions:
@@ -155,7 +155,7 @@ async def get_fire_causes(filters: SizeOfWildfireTypesFilters, db: Session = Dep
 
 
     query_parts = [
-        "SELECT YEAR_OF_FIRE, STATE_AFFILIATION, COUNT(ID) as Fires, AVG(SIZE_ACRES) AS Avg_Fire_Size, MAX(SIZE_ACRES) AS Largest_Fire_Size",
+        "SELECT YEAR_OF_FIRE, AGENCY_NAME, COUNT(ID) as Fires, AVG(SIZE_ACRES) AS Avg_Fire_Size, MAX(SIZE_ACRES) AS Largest_Fire_Size",
         "FROM \"FireIncident\"",
         "JOIN \"ReportingAgency\" ON \"FireIncident\".AGENCY_CODE_ID = \"ReportingAgency\".AGENCY_CODE",
         "JOIN \"NWCGUnit\" ON \"ReportingAgency\".REPORTING_UNIT_ID = \"NWCGUnit\".UNIT_ID"
@@ -164,14 +164,14 @@ async def get_fire_causes(filters: SizeOfWildfireTypesFilters, db: Session = Dep
     conditions = [
         f"YEAR_OF_FIRE >= {filters.start_date.year}",
         f"YEAR_OF_FIRE <= {filters.end_date.year}",
-        f"STATE_AFFILIATION = '{filters.wildfire_type}'"
+        f"AGENCY_NAME = '{filters.reporting_agency}'"
     ]
 
     if conditions:
         query_parts.append("WHERE " + " AND ".join(conditions))
 
 
-    query_parts.append("GROUP BY YEAR_OF_FIRE, STATE_AFFILIATION ORDER BY YEAR_OF_FIRE, STATE_AFFILIATION")
+    query_parts.append("GROUP BY YEAR_OF_FIRE, AGENCY_NAME ORDER BY YEAR_OF_FIRE, AGENCY_NAME")
 
      # Combining all parts of the query into a single string
     query_statement = " ".join(query_parts)
@@ -205,7 +205,7 @@ async def get_fire_causes(filters: wildfireSizeBasedOnGeoFilters, db: Session = 
     conditions = [
         f"YEAR_OF_FIRE >= {filters.start_date.year}",
         f"YEAR_OF_FIRE <= {filters.end_date.year}",
-        f"STATE_AFFILIATION = '{filters.wildfire_type}'"
+        f"STATE_AFFILIATION = '{filters.geographic_area}'"
     ]
 
     if conditions:
