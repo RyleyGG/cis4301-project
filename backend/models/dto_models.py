@@ -17,27 +17,27 @@ class TblSizeResp(BaseModel):
     total_size: int
 
 class WildFireChangesInSizeAndFrequencyFilters(BaseModel):
-    startDate: datetime
-    endDate: datetime
+    start_date: datetime
+    end_date: datetime
 
 class WildfireTypesBasedOnGeoFilters(BaseModel):
-    startDate: datetime
-    endDate: datetime
-    geographicArea: str
-    wildfireType: str
+    start_date: datetime
+    end_date: datetime
+    geographic_area: str
+    wildfire_type: str
 
 class AgencyContaintmentTimeFilters(BaseModel):
-    startDate: datetime
-    endDate: datetime
-    ReportingAgency: str
+    start_date: datetime
+    end_date: datetime
+    reporting_agency: str
 
 class SizeOfWildfireTypesFilters(BaseModel):
-    startDate: datetime
-    endDate: datetime
-    reportingAgency: str
-    wildfireType: str
+    start_date: datetime
+    end_date: datetime
+    reporting_agency: str
+    wildfire_type: str
 
 class wildfireSizeBasedOnGeoFilters(BaseModel):
-    startDate: datetime
-    endDate: datetime
-    geographicArea: str
+    start_date: datetime
+    end_date: datetime
+    geographic_area: str

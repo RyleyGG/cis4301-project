@@ -13,19 +13,37 @@
       </div>
       <div class="card">
         <label for="geographicArea">Geographic Area (Optional):</label>
-        <select name="geographicArea" id="geographicArea" [(ngModel)]="geographicArea" class="form-control">
+        <select
+          name="geographicArea"
+          id="geographicArea"
+          [(ngModel)]="geographicArea"
+          class="form-control"
+        >
           <option value="">Select a Region</option>
-          <option value="NA">NA - National</option>
-          <option value="IN">IN - International</option>
-          <option value="AK">AK - Alaska</option>
-          <option value="CA">CA - California</option>
-          <option value="EA">EA - Eastern Area</option>
-          <option value="GB">GB - Great Basin</option>
-          <option value="NR">NR - Northern Rockies</option>
-          <option value="NW">NW - Northwest</option>
-          <option value="RM">RM - Rocky Mountain</option>
-          <option value="SA">SA - Southern Area</option>
-          <option value="SW">SW - Southwest</option>
+          <option value="CAMBCIFC">
+            Canadian Interagency Forest Fire Centre
+          </option>
+          <option value="USAKCC">Alaska Interagency Coordination Center</option>
+          <option value="USCAONCC">
+            Northern California Area Coordination Center
+          </option>
+          <option value="USCAOSCC">
+            Southern California Coordination Center
+          </option>
+          <option value="USCORMCC">
+            Rocky Mountain Area Coordination Center
+          </option>
+          <option value="USGASAC">Southern Area Coordination Center</option>
+          <option value="USIDNIC">
+            National Interagency Coordination Center
+          </option>
+          <option value="USMTNRC">Northern Rockies Coordination Center</option>
+          <option value="USNMSWC">Southwest Area Coordination Center</option>
+          <option value="USORNWC">Northwest Area Coordination Center</option>
+          <option value="USUTGBC">
+            Western Great Basin Coordination Center
+          </option>
+          <option value="USWIEACC">Eastern Area Coordination Center</option>
         </select>
       </div>
       <div class="card">
