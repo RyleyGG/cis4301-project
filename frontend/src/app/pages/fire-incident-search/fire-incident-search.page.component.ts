@@ -98,6 +98,7 @@ export class FireIncidentSearchComponent implements OnInit {
   }
 
   onPageChange(event: any) {
+    this.rowsPerPage$.set(event.rows);
     this.firstRowIndex = event.first;
     this.lastRowIndex = event.page + 1 !== event.pageCount ? this.firstRowIndex + this.rowsPerPage$() : this.totalSize$();
     this.currentPage$.set(event.page + 1);
