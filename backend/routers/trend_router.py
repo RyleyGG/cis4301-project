@@ -161,6 +161,7 @@ async def size_of_wildfire_types_query(filters: SizeOfWildfireTypesData, db: Ses
         f"YEAR_OF_FIRE >= {filters.start_date.year}",
         f"YEAR_OF_FIRE <= {filters.end_date.year}",
         f"AGENCY_NAME = '{filters.reporting_agency}'"
+        f"CAUSE_DESCRIPTION = '{filters.wildfire_type}'"
     ]
 
     if conditions:
