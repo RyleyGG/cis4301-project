@@ -12,8 +12,9 @@ import {
 } from './pages/wildfire-sizes-based-on-geography/wildfire-sizes-based-on-geography.component';
 import {AgencyContaintmentTimeComponent} from './pages/agency-containment-time/agency-containment-time.component';
 import {DatabaseStatusComponent} from "./pages/db-status/database-status.page.component";
-import { SizeOfWildfireTypesComponent } from './pages/size-of-wildfire-types/size-of-wildfire-types.component';
+import {SizeOfWildfireTypesComponent} from './pages/size-of-wildfire-types/size-of-wildfire-types.component';
 import {FireIncidentSearchComponent} from "./pages/fire-incident-search/fire-incident-search.page.component";
+import {NWCGUnitSearchComponent} from "./pages/nwcg-unit-search/nwcg-unit-search.page.component";
 
 
 export const routes: Routes = [
@@ -27,5 +28,6 @@ export const routes: Routes = [
   {path: "wildfire-types-size", component: SizeOfWildfireTypesComponent},
   {path: "status", component: DatabaseStatusComponent},
   {path: "fire-incident-search", component: FireIncidentSearchComponent},
+  {path: "nwcg-unit-search", component: NWCGUnitSearchComponent},
   {path: '**', component: AppComponent} // TODO: make this a PageNotFound or 404 error page
 ];

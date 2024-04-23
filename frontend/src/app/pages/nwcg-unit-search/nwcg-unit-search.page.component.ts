@@ -6,17 +6,17 @@ import {CardModule} from "primeng/card";
 import {debounceTime, Subject, take} from "rxjs";
 
 import {ProgressSpinnerModule} from "primeng/progressspinner";
-import {FireIncidentsService} from "../../core/services/fire_incidents_service";
-import {FireIncident, FireIncidentFilters} from "../../core/models/fire_incidents.interface";
 import {DbStatusService} from "../../core/services/database_status_service";
 import {FormsModule} from "@angular/forms";
 import {TableModule} from "primeng/table";
 import {InputTextModule} from "primeng/inputtext";
 import {DropdownModule} from "primeng/dropdown";
 import {Paginator, PaginatorModule} from "primeng/paginator";
+import {NWCGUnit, NWCGUnitFilters} from "../../core/models/nwcg_units.interface";
+import {NWCGUnitService} from "../../core/services/nwcg_unit_service";
 
 @Component({
-  selector: 'fire-incident-search',
+  selector: 'nwcg-unit-search',
   standalone: true,
   imports: [
     CommonModule,
@@ -29,17 +29,17 @@ import {Paginator, PaginatorModule} from "primeng/paginator";
     ProgressSpinnerModule,
     PaginatorModule
   ],
-  templateUrl: './fire-incident-search.page.component.html',
+  templateUrl: './nwcg-unit-search.page.component.html',
 })
-export class FireIncidentSearchComponent implements OnInit {
-  fireIncidents$: WritableSignal<FireIncident[]> = signal([]);
+export class NWCGUnitSearchComponent implements OnInit {
+  nwcgUnits$: WritableSignal<NWCGUnit[]> = signal([]);
   currentPage$: WritableSignal<number> = signal(1);
   rowsPerPage$: WritableSignal<number> = signal(10);
   totalSize$: WritableSignal<number> = signal(0);
 
-  sizeCategoryFilter$: WritableSignal<string | undefined> = signal(undefined);
-  yearOfFireMinFilter$: WritableSignal<number | undefined> = signal(undefined);
-  yearOfFireMaxFilter$: WritableSignal<number | undefined> = signal(undefined);
+  agencyNameFilter$: WritableSignal<string | undefined> = signal(undefined);
+  wildlandRoleFilter$: WritableSignal<string | undefined> = signal(undefined);
+  geographicAreaCode$: WritableSignal<string | undefined> = signal(undefined);
 
   private filterChangeSubject = new Subject<void>();
 
@@ -51,7 +51,7 @@ export class FireIncidentSearchComponent implements OnInit {
 
   constructor(
     private dbStatusService: DbStatusService,
-    private fireIncidentService: FireIncidentsService
+    private nwcgUnitService: NWCGUnitService
   ) {
     this.filterChangeSubject.pipe(debounceTime(2000)).subscribe(() => {
       this.firstRowIndex = 0;
@@ -74,28 +74,29 @@ export class FireIncidentSearchComponent implements OnInit {
     this.dataReady = false;
     const skip = (this.currentPage$() - 1) * this.rowsPerPage$();
     const fetchOnly = this.rowsPerPage$();
-    const filters: FireIncidentFilters = {};
-    if (!!this.sizeCategoryFilter$()) {
-      filters.size_category = this.sizeCategoryFilter$();
+    const filters: NWCGUnitFilters = {};
+    if (!!this.agencyNameFilter$()) {
+      filters.agency_name = this.agencyNameFilter$();
     }
-    if (!!this.yearOfFireMinFilter$()) {
-      filters.year_of_fire_min = this.yearOfFireMinFilter$();
+    if (!!this.wildlandRoleFilter$()) {
+      filters.wildland_role = this.wildlandRoleFilter$();
     }
-    if (!!this.yearOfFireMaxFilter$()) {
-      filters.year_of_fire_min = this.yearOfFireMaxFilter$();
+    if (!!this.geographicAreaCode$()) {
+      filters.geographic_area_code = this.geographicAreaCode$();
     }
     filters.skip = skip;
     filters.take = fetchOnly;
 
-    this.fireIncidentService
-      .getFireIncidents(filters)
+    this.nwcgUnitService
+      .getNWCGUnits(filters)
       .pipe(take(1))
       .subscribe((res) => {
-        this.fireIncidents$.set(res.fire_incidents);
+        this.nwcgUnits$.set(res.nwcg_units);
         this.totalSize$.set(res.total_count);
         this.dataReady = true;
       });
   }
+
 
   onPageChange(event: any) {
     this.rowsPerPage$.set(event.rows);
@@ -107,14 +108,14 @@ export class FireIncidentSearchComponent implements OnInit {
 
 
   onFilterChange(event: any, filter_changed: string) {
-    if (filter_changed == 'size_category') {
-      this.sizeCategoryFilter$.set(event);
+    if (filter_changed == 'agency_name') {
+      this.agencyNameFilter$.set(event);
     }
-    if (filter_changed == 'year_of_fire_min') {
-      this.yearOfFireMinFilter$.set(event);
+    if (filter_changed == 'wildland_role') {
+      this.wildlandRoleFilter$.set(event);
     }
-    if (filter_changed == 'year_of_fire_max') {
-      this.yearOfFireMaxFilter$.set(event);
+    if (filter_changed == 'geographic_area_code') {
+      this.geographicAreaCode$.set(event);
     }
     this.filterChangeSubject.next();
   }

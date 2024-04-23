@@ -4,15 +4,24 @@ from enum import Enum
 from pydantic import BaseModel, UUID4
 from typing import Optional, List
 
-from models.db_models import FireIncident
+from models.db_models import FireIncident, NWCGUnit
 
 
-class FireIncidentFilters(BaseModel):
+class BaseFilterObj(BaseModel):
+    skip: Optional[int] = None
+    take: Optional[int] = None
+
+
+class FireIncidentFilters(BaseFilterObj):
     size_category: Optional[str] = None
     year_of_fire_max: Optional[int] = None
     year_of_fire_min: Optional[int] = None
-    skip: Optional[int] = None
-    take: Optional[int] = None
+
+
+class NWCGUnitFilters(BaseFilterObj):
+    agency_name: Optional[str] = None
+    wildland_role: Optional[str] = None
+    geographic_area_code: Optional[str] = None
 
 
 class TblSizeResp(BaseModel):
@@ -68,7 +77,12 @@ class FireIncidentSearch(BaseModel):
     total_count: int
 
 
-class wildfireSizeBasedOnGeoFilters(BaseModel):
+class NWCGUnitSearch(BaseModel):
+    nwcg_units: List[NWCGUnit]
+    total_count: int
+
+
+class WildfireSizeBasedOnGeoFilters(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
     geographic_area: Optional[str] = None

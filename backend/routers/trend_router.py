@@ -7,7 +7,7 @@ from sqlalchemy import text
 from sqlmodel import Session, select
 
 from models.db_models import FireIncident, ReportingAgency, NWCGUnit
-from models.dto_models import FireIncidentFilters, WildFireChangesInSizeAndFrequency, wildfireSizeBasedOnGeoFilters, WildfireTypesBasedOnGeo, WildFireChangesInSizeAndFrequencyFilters, WildfireTypesBasedOnGeoFilters, SizeOfWildfireTypesFilters, AgencyContaintmentTimeFilters
+from models.dto_models import FireIncidentFilters, WildFireChangesInSizeAndFrequency, WildfireSizeBasedOnGeoFilters, WildfireTypesBasedOnGeo, WildFireChangesInSizeAndFrequencyFilters, WildfireTypesBasedOnGeoFilters, SizeOfWildfireTypesFilters, AgencyContaintmentTimeFilters
 from services.api_utility_service import get_session
 
 router = APIRouter()
@@ -186,7 +186,7 @@ async def size_of_wildfire_types_query(filters: SizeOfWildfireTypesFilters, db: 
 
 
 @router.post("/size-of-wildfire-based-on-geographic-area-form-submission")
-async def wildfire_size_based_on_geo_query(filters: wildfireSizeBasedOnGeoFilters, db: Session = Depends(get_session)):
+async def wildfire_size_based_on_geo_query(filters: WildfireSizeBasedOnGeoFilters, db: Session = Depends(get_session)):
     # Construct the SQL query using safe parameter binding
 
     if isinstance(filters.start_date, str):
