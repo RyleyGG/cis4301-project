@@ -110,7 +110,6 @@ class WildFireSizesBasedOnGeo(BaseModel):
     largest_fire_size: Optional[int] = None
 
 
-
 class WildfireSizeBasedOnGeoFilters(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
