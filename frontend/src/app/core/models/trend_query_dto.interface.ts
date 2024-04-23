@@ -1,14 +1,14 @@
 // WildFire Size and Frequency
 export interface WildFireChangesInSizeAndFrequencyFilters {
-  start_date?: Date;
-  end_date?: Date;
+  start_date?: number;
+  end_date?: number;
 }
 
 export interface WildFireChangesInSizeAndFrequency {
-  year_of_fire?: number;
-  avg_fire_size?: number;
-  total_number_of_fires?: number
-  total_fires_size?: number
+  year_of_fire: number;
+  avg_fire_size: number;
+  total_number_of_fires: number
+  total_fires_size: number
 }
 
 // WildFire Types based on Geographical Area
@@ -28,7 +28,6 @@ export interface WildfireTypesBasedOnGeoData {
   total_fires_size?: number;
   fire_type?: number;
 }
-
 
 
 // Agency Containment Time

@@ -54,8 +54,8 @@ class TblSizeResp(BaseModel):
 
 # Size And Frequency Filters and DTO
 class WildFireChangesInSizeAndFrequencyFilters(BaseModel):
-    start_date: Optional[datetime] = None
-    end_date: Optional[datetime] = None
+    start_date: Optional[str] = None
+    end_date: Optional[str] = None
 
 
 class WildFireChangesInSizeAndFrequency(BaseModel):

@@ -18,39 +18,41 @@ async def root():
     return {'message': 'Hello From the Trends router!'}
 
 
-    return return_obj
-
-## TODO: Fix Queries structure and 
-
 ## Wildfire Changes In Size And Frequency Query
-@router.post('/changes-in-size-and-frequency-form-submission', response_model=List[WildFireChangesInSizeAndFrequency], response_model_by_alias=False)
+@router.post('/changes-in-size-and-frequency', response_model=List[WildFireChangesInSizeAndFrequency], response_model_by_alias=False)
 async def wildfire_changes_in_size_and_freq_query(filters: WildFireChangesInSizeAndFrequencyFilters, db: Session = Depends(get_session)):
-    # Ensure date strings are converted to datetime objects
-    if isinstance(filters.start_date, str):
-        filters.start_date = datetime.fromisoformat(filters.start_date)
-    if isinstance(filters.end_date, str):
-        filters.end_date = datetime.fromisoformat(filters.end_date)
+    query_statement = "SELECT year_of_fire, AVG(size_acres) AS avg_fire_size, COUNT(id) AS total_number_of_fires, SUM(size_acres) AS total_fires_size FROM \"FireIncident\""
 
-    query_statement = ["SELECT YEAR_OF_FIRE, AVG(SIZE_ACRES) AS Avg_Fire_Size, COUNT(ID) AS Total_Number_of_Fires, SUM(SIZE_ACRES) AS TOTAL_FIRES_SIZE FROM \"FireIncident\""]
-    conditions = [
-        f"YEAR_OF_FIRE >= {filters.start_date.year}",
-        f"YEAR_OF_FIRE <= {filters.end_date.year}",]
+    key_list = list(filters.model_dump().keys())
+    try:
+        key_list.pop(key_list.index('skip'))
+    except ValueError:
+        pass
+    try:
+        key_list.pop(key_list.index('take'))
+    except ValueError:
+        pass
 
+    cleaned_key_list = []
+    for key in key_list:
+        if filters.model_dump()[key] is not None:
+            cleaned_key_list.append(key)
+    key_list = cleaned_key_list
 
+    if len(key_list) != 0:
+        query_statement += ' WHERE'
+        if filters.start_date:
+            query_statement += f" year_of_fire >= {filters.start_date}"
+        if filters.end_date:
+            query_statement += " AND" if filters.end_date else ''
+            query_statement += f" year_of_fire <= {filters.end_date}"
 
-    # Combine conditions into a single WHERE clause if applicable
-    if conditions:
-        query_statement.append("WHERE " + " AND ".join(conditions))
 
     # Complete the query with grouping and ordering
-    query_statement.append("GROUP BY YEAR_OF_FIRE ORDER BY YEAR_OF_FIRE")
+    query_statement += " GROUP BY year_of_fire ORDER BY year_of_fire"
 
-    # Join all parts of the query into a single string
-    query_statement = " ".join(query_statement)
-
-
-    exem_statement = select(FireIncident).from_statement(text(query_statement))
-    return_obj = db.execute(exem_statement).all()
+    print(query_statement)
+    return_obj = db.execute(text(query_statement)).fetchall()
     return return_obj
 
 
