@@ -13,45 +13,45 @@ export interface wildfireSizeBasedOnGeoData {
 
 // WildFire Types based on Geographical Area
 
-export interface WildfireTypesBasedOnGeoFilters{
+export interface WildfireTypesBasedOnGeoFilters {
   start_date?: Date;
   end_date?: Date;
   geographic_area?: string;
   wildfire_type?: string;
 }
 
-export interface WildfireTypesBasedOnGeoData{
+export interface WildfireTypesBasedOnGeoData {
 
 }
 
 
-// Agency Containment Time 
-export interface AgencyContaintmentTimeFilters{
+// Agency Containment Time
+export interface AgencyContaintmentTimeFilters {
   start_date?: Date;
   end_date?: Date;
   reporting_agency?: string;
 }
 
-export interface AgencyContaintmentTimeData{
+export interface AgencyContaintmentTimeData {
 
 }
 
 
 // Size of Wildfire Types
-export interface SizeOfWildfireTypesFilters{
+export interface SizeOfWildfireTypesFilters {
   start_date?: Date;
   end_date?: Date;
   reporting_agency?: string;
   wildfire_type?: string;
 }
 
-export interface SizeOfWildfireTypesData{
+export interface SizeOfWildfireTypesData {
 
 }
 
 
 // WildFire Size and Frequency
-export interface WildFireChangesInSizeAndFrequency{
+export interface WildFireChangesInSizeAndFrequency {
   year_of_fire?: number;
   avg_fire_size?: number;
   total_number_of_fires?: number
@@ -59,7 +59,7 @@ export interface WildFireChangesInSizeAndFrequency{
 }
 
 
-export interface WildFireChangesInSizeAndFrequencyFilters{
+export interface WildFireChangesInSizeAndFrequencyFilters {
   start_date?: Date;
   end_date?: Date;
 }

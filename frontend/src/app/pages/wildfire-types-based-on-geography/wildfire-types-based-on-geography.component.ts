@@ -47,7 +47,7 @@ export class wildfireTypesBasedOnGeographyComponent {
       }
     };
   }
-  
+
 
   submitTypesForm() {
     const formData: WildfireTypesBasedOnGeoFilters = {
