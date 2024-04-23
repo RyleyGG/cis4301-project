@@ -1,22 +1,44 @@
 <form class="content-section" (ngSubmit)="submitSizeAndFrequencyForm()">
   <h1>Wildfire Changes In Size And Frequency</h1>
   <p class="description">Select a category to view data and trends:</p>
-  <div class="flex-container">
-    <div class="form-container">
-      <div class="card">
-        <label>Time Range Start:</label>
-        <p-calendar [(ngModel)]="startDate" name="startDate"></p-calendar>
+  <div class="flex flex-column gap-2">
+    <div class="flex flex-row gap-2">
+      <div class="col-4 card">
+        <label>Start Year:</label>
+        <input
+          type="text"
+          pInputText
+          [ngModel]="startDate$()"
+          (ngModelChange)="startDate$.set($event)"
+          [disabled]="!dataReady"
+          name="startYear"
+          min="1900"
+          max="2100"
+        />
       </div>
-      <div class="card">
-        <label>Time Range End:</label>
-        <p-calendar [(ngModel)]="endDate" name="endDate"></p-calendar>
+      <div class="col-4 card">
+        <label>End Year:</label>
+        <input
+          type="text"
+          pInputText
+          [ngModel]="endDate$()"
+          (ngModelChange)="endDate$.set($event)"
+          [disabled]="!dataReady"
+          name="endYear"
+          min="1900"
+          max="2100"
+        />
       </div>
-      <div class="card">
+      <div class="col-4 card">
         <button type="submit" class="btn-primary">View Results</button>
       </div>
     </div>
-    <div class="chart-container">
-      <p-chart type="line" [data]="data" [options]="options"></p-chart>
+    <div class="flex flex-row gap-2">
+      <p-chart class="col-6" type="line" [data]="avgFireSizeData" [options]="options"></p-chart>
+      <p-chart class="col-6" type="line" [data]="totalFireSizeData" [options]="options"></p-chart>
+    </div>
+    <div class="flex flex-row gap-2">
+      <p-chart class="col-6" type="line" [data]="totalFireNumData" [options]="options"></p-chart>
     </div>
   </div>
 </form>
