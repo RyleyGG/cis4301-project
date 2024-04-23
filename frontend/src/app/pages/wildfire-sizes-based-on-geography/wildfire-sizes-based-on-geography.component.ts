@@ -49,7 +49,7 @@ export class WildfireSizesBasedOnGeographyComponent {
     };
   }
 
-  submitsSizesForm() {
+  submitsSizesBasedOnGeoForm() {
     const formData: wildfireSizeBasedOnGeoFilters = {
       start_date: this.startDate,
       end_date: this.endDate,

@@ -1,61 +1,59 @@
-import { Component } from '@angular/core';
+import {Component, OnInit, signal, WritableSignal} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { ChartModule } from 'primeng/chart';
-import { HttpClient } from '@angular/common/http';
-
+import { TrendQueryService } from '../../../core/services/trend_query_service';
+import { WildFireChangesInSizeAndFrequencyFilters } from '../../../core/models/trend_query_dto.interface';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-wildfires-changes',
   standalone: true,
   imports: [CalendarModule, FormsModule, ChartModule],
   templateUrl: './wildfires-changes.component.html',
-  styleUrl: './wildfires-changes.component.css'
+  styleUrls: ['./wildfires-changes.component.css']
 })
-
-export class WildfiresChangesComponent {
-  startDate: Date = new Date();  // Date property for calendar binding
-  endDate: Date = new Date();  // Date property for calendar binding
-
+export class WildfireChangesInSizeAndFrequencyComponent implements OnInit {
+  startDate: Date = new Date();
+  endDate: Date = new Date();
+  chartLabels$: WritableSignal<string[]> = signal([]);
+  chartDatasets$: WritableSignal<any[]> = signal([]);
   data: any;
   options: any;
 
-  constructor(private http: HttpClient) {  // Inject HttpClient here
+  constructor(private trendQueryService: TrendQueryService) {}
+
+  ngOnInit() {
     this.initializeChartData();
   }
 
   initializeChartData() {
-    this.data = {
-      labels: ['2000', '2001', '2002', '2003', '2004', '2005', '2006'],
-      datasets: [
-        {
-          label: 'Demo Data',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
-          borderColor: '#42A5F5'
-        }
-      ]
-    };
+    this.data = { labels: this.chartLabels$(), datasets: this.chartDatasets$() };
     this.options = {
       responsive: true,
       plugins: {
-        legend: {
-          display: true,
-          position: 'top'
-        }
+        legend: { display: true, position: 'top' }
       }
     };
   }
 
   submitSizeAndFrequencyForm() {
-    const formData = {
-      startDate: this.startDate,
-      endDate: this.endDate
+    const formData: WildFireChangesInSizeAndFrequencyFilters = {
+      start_date: this.startDate,
+      end_date: this.endDate,
     };
+    console.log(formData);
   
-    this.http.post('http://127.0.0.1:8000/dummy/changes-in-size-and-frequency-form-submission', formData).subscribe({
-      next: (response) => console.log('Form submitted successfully', response),
-      error: (error) => console.error('Error submitting form', error)
-    });
+    this.trendQueryService.getWildFireSizeAndFrequency(formData)
+      .pipe(take(1))
+      .subscribe({
+        next: (res) => {
+          // Process the response and update chart data
+        },
+        error: (error) => {
+          console.error('Error fetching data:', error);
+        }
+      });
   }
+  
 }
