@@ -15,6 +15,7 @@ import {DatabaseStatusComponent} from "./pages/db-status/database-status.page.co
 import {SizeOfWildfireTypesComponent} from './pages/size-of-wildfire-types/size-of-wildfire-types.component';
 import {FireIncidentSearchComponent} from "./pages/fire-incident-search/fire-incident-search.page.component";
 import {NWCGUnitSearchComponent} from "./pages/nwcg-unit-search/nwcg-unit-search.page.component";
+import {ReportingAgencySearchComponent} from "./pages/reporting-agency-search/reporting-agency-search.page.component";
 
 
 export const routes: Routes = [
@@ -29,5 +30,6 @@ export const routes: Routes = [
   {path: "status", component: DatabaseStatusComponent},
   {path: "fire-incident-search", component: FireIncidentSearchComponent},
   {path: "nwcg-unit-search", component: NWCGUnitSearchComponent},
+  {path: "reporting-agency-search", component: ReportingAgencySearchComponent},
   {path: '**', component: AppComponent} // TODO: make this a PageNotFound or 404 error page
 ];

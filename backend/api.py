@@ -6,7 +6,7 @@ from sqlmodel import SQLModel, Session, select
 from models.db_models import Dummy, FireIncident, NWCGUnit, ReportingAgency
 from models.dto_models import TblSizeResp
 
-from routers import dummy_router, fire_incident_router, trend_router, nwcg_unit_router
+from routers import dummy_router, fire_incident_router, trend_router, nwcg_unit_router, reporting_agency_router
 from services.api_utility_service import engine, get_session
 
 
@@ -22,7 +22,8 @@ app = FastAPI(
 app.include_router(dummy_router.router, prefix='/dummy', tags=['Dummy'])
 app.include_router(trend_router.router, prefix='/trends', tags=['Trends'])
 app.include_router(fire_incident_router.router, prefix='/fire_incidents', tags=['FireIncidents'])
-app.include_router(nwcg_unit_router.router, prefix='/nwcg_units', tags=['FireIncidents'])
+app.include_router(nwcg_unit_router.router, prefix='/nwcg_units', tags=['NWCGUnits'])
+app.include_router(reporting_agency_router.router, prefix='/reporting_agencies', tags=['ReportingAgencies'])
 
 origins = ["*"]
 app.add_middleware(

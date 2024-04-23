@@ -4,7 +4,7 @@ from enum import Enum
 from pydantic import BaseModel, UUID4
 from typing import Optional, List
 
-from models.db_models import FireIncident, NWCGUnit
+from models.db_models import FireIncident, NWCGUnit, ReportingAgency
 
 
 class BaseFilterObj(BaseModel):
@@ -23,6 +23,13 @@ class NWCGUnitFilters(BaseFilterObj):
     wildland_role: Optional[str] = None
     geographic_area_code: Optional[str] = None
 
+
+class ReportingAgencyFilters(BaseFilterObj):
+    agency_code: Optional[str] = None
+    reporting_unit_id: Optional[str] = None
+    reporting_unit_name: Optional[str] = None
+
+
 class FireIncidentSearch(BaseModel):
     fire_incidents: List[FireIncident]
     total_count: int
@@ -32,11 +39,18 @@ class NWCGUnitSearch(BaseModel):
     nwcg_units: List[NWCGUnit]
     total_count: int
 
+
+class ReportingAgencySearch(BaseModel):
+    reporting_agencies: List[ReportingAgency]
+    total_count: int
+
+
 class TblSizeResp(BaseModel):
     fire_incident_size: int
     nwcg_unit_size: int
     reporting_agency_size: int
     total_size: int
+
 
 # Size And Frequency Filters and DTO
 class WildFireChangesInSizeAndFrequencyFilters(BaseModel):
@@ -86,14 +100,14 @@ class AgencyContaintmentTime(BaseModel):
 
 # Size Of Types Filters and DTO
 
-class wildfireSizeBasedOnGeoFilters(BaseModel):
+class SizeOfWildfireTypesData(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
     reporting_agency: Optional[str] = None
     wildfire_type: Optional[str] = None
 
 
-class wildfireSizeBasedOnGeo(BaseModel):
+class SizeOfWildfireTypesFilters(BaseModel):
     year_of_fire: Optional[int] = None
     reporting_unit_name: Optional[str] = None
     fires: Optional[int] = None

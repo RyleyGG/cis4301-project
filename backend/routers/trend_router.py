@@ -7,7 +7,7 @@ from sqlalchemy import text
 from sqlmodel import Session, select
 
 from models.db_models import FireIncident, ReportingAgency, NWCGUnit
-from models.dto_models import FireIncidentFilters, WildFireChangesInSizeAndFrequency,AgencyContaintmentTime, WildfireSizeBasedOnGeoFilters, WildFireSizesBasedOnGeo, WildfireTypesBasedOnGeo, WildFireChangesInSizeAndFrequencyFilters, WildfireTypesBasedOnGeoFilters, AgencyContaintmentTimeFilters, wildfireSizeBasedOnGeo, wildfireSizeBasedOnGeoFilters
+from models.dto_models import FireIncidentFilters, WildFireChangesInSizeAndFrequency,AgencyContaintmentTime, WildfireSizeBasedOnGeoFilters, WildFireSizesBasedOnGeo, WildfireTypesBasedOnGeo, WildFireChangesInSizeAndFrequencyFilters, WildfireTypesBasedOnGeoFilters, AgencyContaintmentTimeFilters, SizeOfWildfireTypesFilters, SizeOfWildfireTypesData
 from services.api_utility_service import get_session
 
 router = APIRouter()
@@ -140,8 +140,8 @@ async def agency_containtment_time_vs_size_query(filters: AgencyContaintmentTime
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.post("/size-of-wildfire-types-form-submission", response_model=List[wildfireSizeBasedOnGeo], response_model_by_alias=False)
-async def size_of_wildfire_types_query(filters: wildfireSizeBasedOnGeoFilters, db: Session = Depends(get_session)):
+@router.post("/size-of-wildfire-types-form-submission", response_model=List[SizeOfWildfireTypesFilters], response_model_by_alias=False)
+async def size_of_wildfire_types_query(filters: SizeOfWildfireTypesData, db: Session = Depends(get_session)):
     # Construct the SQL query using safe parameter binding
 
     if isinstance(filters.start_date, str):
