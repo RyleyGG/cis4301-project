@@ -5,7 +5,7 @@ import {
   WildfireChangesInSizeAndFrequencyComponent
 } from './pages/WildfireChangesInSizeAndFrequency/wildfires-changes/wildfires-changes.component';
 import {
-  wildfireTypesBasedOnGeographyComponent
+  WildfireTypesBasedOnGeographyComponent
 } from './pages/wildfire-types-based-on-geography/wildfire-types-based-on-geography.component';
 import {
   WildfireSizesBasedOnGeographyComponent
@@ -24,7 +24,7 @@ export const routes: Routes = [
   {path: '', redirectTo: '/landing', pathMatch: 'full'},
   {path: "wildfire-changes-in-size-and-frequency", component: WildfireChangesInSizeAndFrequencyComponent},
   {path: "wildfire-sizes-geography", component: WildfireSizesBasedOnGeographyComponent},
-  {path: "wildfire-types-geography", component: wildfireTypesBasedOnGeographyComponent},
+  {path: "wildfire-types-geography", component: WildfireTypesBasedOnGeographyComponent},
   {path: "containment-vs-size", component: AgencyContainmentTimeComponent},
   {path: "wildfire-types-size", component: SizeOfWildfireTypesComponent},
   {path: "status", component: DatabaseStatusComponent},

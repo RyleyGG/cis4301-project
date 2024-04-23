@@ -22,7 +22,7 @@ import {MultiSelectModule} from "primeng/multiselect";  // Make sure to import H
   styleUrls: ['./wildfire-types-based-on-geography.component.css']  // Corrected property name and syntax
 })
 
-export class wildfireTypesBasedOnGeographyComponent implements OnInit {
+export class WildfireTypesBasedOnGeographyComponent implements OnInit {
   startDate$: WritableSignal<number | undefined> = signal(undefined);
   endDate$: WritableSignal<number | undefined> = signal(undefined);
   geographicArea$: WritableSignal<any | undefined> = signal(undefined);
