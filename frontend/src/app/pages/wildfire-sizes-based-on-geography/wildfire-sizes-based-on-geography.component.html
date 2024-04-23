@@ -1,79 +1,79 @@
-<form class="content-section" (ngSubmit)="submitsSizesBasedOnGeoForm()">
-  <h1>Wildfire Sizes Based on State</h1>
-  <p class="description">Select a category to view data and trends:</p>
-  <div class="flex-container">
-    <div class="form-container">
-      <div class="card">
-        <label>Time Range Start:</label>
-        <p-calendar [(ngModel)]="startDate" name="startDate"></p-calendar>
+<form class="content-section" (ngSubmit)="submitTypesForm()">
+  <h1>Wildfire Sizes Based on Geography</h1>
+  <p class="description">Select a category to view data and trends</p>
+  <div class="flex flex-column gap-2">
+    <div class="flex flex-row gap-1">
+      <div class="col-6 card">
+        <label>Start Year</label>
+        <input
+          type="text"
+          pInputText
+          [ngModel]="startDate$()"
+          (ngModelChange)="startDate$.set($event)"
+          [disabled]="!dataReady"
+          name="startYear"
+          min="1900"
+          max="2100"
+        />
       </div>
-      <div class="card">
-        <label>Time Range End:</label>
-        <p-calendar [(ngModel)]="endDate" name="endDate"></p-calendar>
-      </div>
-      <div class="card">
-        <label for="geographicArea">State (Optional):</label>
-        <select name="geographicArea" id="geographicArea" [(ngModel)]="geographicArea" class="form-control">
-          <option value="">Select a State</option>
-          <option value="AL">Alabama</option>
-          <option value="AK">Alaska</option>
-          <option value="AZ">Arizona</option>
-          <option value="AR">Arkansas</option>
-          <option value="CA">California</option>
-          <option value="CO">Colorado</option>
-          <option value="CT">Connecticut</option>
-          <option value="DE">Delaware</option>
-          <option value="DC">District Of Columbia</option>
-          <option value="FL">Florida</option>
-          <option value="GA">Georgia</option>
-          <option value="HI">Hawaii</option>
-          <option value="ID">Idaho</option>
-          <option value="IL">Illinois</option>
-          <option value="IN">Indiana</option>
-          <option value="IA">Iowa</option>
-          <option value="KS">Kansas</option>
-          <option value="KY">Kentucky</option>
-          <option value="LA">Louisiana</option>
-          <option value="ME">Maine</option>
-          <option value="MD">Maryland</option>
-          <option value="MA">Massachusetts</option>
-          <option value="MI">Michigan</option>
-          <option value="MN">Minnesota</option>
-          <option value="MS">Mississippi</option>
-          <option value="MO">Missouri</option>
-          <option value="MT">Montana</option>
-          <option value="NE">Nebraska</option>
-          <option value="NV">Nevada</option>
-          <option value="NH">New Hampshire</option>
-          <option value="NJ">New Jersey</option>
-          <option value="NM">New Mexico</option>
-          <option value="NY">New York</option>
-          <option value="NC">North Carolina</option>
-          <option value="ND">North Dakota</option>
-          <option value="OH">Ohio</option>
-          <option value="OK">Oklahoma</option>
-          <option value="OR">Oregon</option>
-          <option value="PA">Pennsylvania</option>
-          <option value="RI">Rhode Island</option>
-          <option value="SC">South Carolina</option>
-          <option value="SD">South Dakota</option>
-          <option value="TN">Tennessee</option>
-          <option value="TX">Texas</option>
-          <option value="UT">Utah</option>
-          <option value="VT">Vermont</option>
-          <option value="VA">Virginia</option>
-          <option value="WA">Washington</option>
-          <option value="WV">West Virginia</option>
-          <option value="WI">Wisconsin</option>
-          <option value="WY">Wyoming</option>
-        </select>
-      </div>
-      <div class="card">
-        <button type="submit" class="btn-primary">View Results</button>
+      <div class="col-6 card">
+        <label>End Year</label>
+        <input
+          type="text"
+          pInputText
+          [ngModel]="endDate$()"
+          (ngModelChange)="endDate$.set($event)"
+          [disabled]="!dataReady"
+          name="endYear"
+          min="1900"
+          max="2100"
+        />
       </div>
     </div>
-    <div class="chart-container">
-      <p-chart type="line" [data]="data" [options]="options"></p-chart>
+    <div class="flex flex-row gap-1">
+      <div class="col-8 card">
+        <label for="geographicArea">Geographic Area</label>
+        <p-multiSelect
+          [options]="geographicAreaOpts"
+          [ngModel]="geographicArea$()"
+          (ngModelChange)="geographicArea$.set($event)"
+          [disabled]="!dataReady"
+          optionLabel="name"
+          [showClear]="true"
+          placeholder="Select an Area Code"
+          name="geographicArea"
+          id="geographicArea"></p-multiSelect>
+      </div>
+      <!--      <div class="col-4 card">-->
+      <!--        <label for="wildfireType">Wildfire Type</label>-->
+      <!--        <p-multiSelect-->
+      <!--          [options]="wildfireTypeOpts"-->
+      <!--          [ngModel]="causeDescription$()"-->
+      <!--          (ngModelChange)="causeDescription$.set($event)"-->
+      <!--          optionLabel="name"-->
+      <!--          [disabled]="!dataReady"-->
+      <!--          [showClear]="true"-->
+      <!--          placeholder="Select a Cause Description"-->
+      <!--          name="wildfireType"-->
+      <!--          id="wildfireType"></p-multiSelect>-->
+      <!--      </div>-->
+      <div class="col-4 card">
+        <button pButton type="submit" class="btn-primary" [disabled]="!dataReady">View Results</button>
+      </div>
     </div>
+    <div>
+      <label for="avgFireSizeData">Average Fire Size (Acres)</label>
+      <p-chart id="avgFireSizeData" class="col-12" type="line" [data]="avgFireSizeData"
+               [options]="avgFireSizeOpts"></p-chart>
+    </div>
+    <div>
+      <label for="totalFireSizeData">Total Fire Size (Acres)</label>
+      <p-chart id="totalFireSizeData" class="col-12" type="line" [data]="totalFireSizeData"
+               [options]="totalFireSizeOpts"></p-chart>
+    </div>
+    <!--    <div>-->
+    <!--      <label for="totalFireNumData">Total Fire Count</label>-->
+    <!--      <p-chart id="totalFireNumData" class="col-12" type="line" [data]="totalFireNumData" [options]="options"></p-chart>-->
+    <!--    </div>-->
   </div>
 </form>

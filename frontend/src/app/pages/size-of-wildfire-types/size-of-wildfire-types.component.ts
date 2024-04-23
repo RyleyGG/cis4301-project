@@ -95,7 +95,7 @@ export class SizeOfWildfireTypesComponent implements OnInit {
     this.avgFireSizeOpts = {
       ...options, scales: {
         y: {
-          type: 'logarithmic', // Logarithmic scale for y-axis
+          type: 'logarithmic',
           min: 0,
           max: this.getMaxY(this.avgFireSizeDataset$()),
         }
@@ -104,7 +104,7 @@ export class SizeOfWildfireTypesComponent implements OnInit {
     this.totalFireSizeOpts = {
       ...options, scales: {
         y: {
-          type: 'logarithmic', // Logarithmic scale for y-axis
+          type: 'logarithmic',
           min: 0,
           max: this.getMaxY(this.totalFireSizeDataset$()),
         }

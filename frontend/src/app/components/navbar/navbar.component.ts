@@ -18,6 +18,7 @@ import {firstValueFrom} from 'rxjs';
 export class NavbarComponent implements OnInit {
   title = 'cis4301-project';
   loggedIn: boolean = false;
+  themeTitle: string = 'Light';
 
   async ngOnInit() {
   }
@@ -27,6 +28,7 @@ export class NavbarComponent implements OnInit {
 
   swapTheme(): void {
     const newTheme = this.themeService.theme() == 'arya-blue' ? 'saga-blue' : 'arya-blue';
+    this.themeTitle = this.themeService.theme() == 'arya-blue' ? 'Light' : 'Dark';
     this.themeService.setTheme(newTheme);
   }
 }
