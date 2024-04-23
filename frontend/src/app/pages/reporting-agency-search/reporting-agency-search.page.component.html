@@ -1,16 +1,6 @@
 <div class="mt-3 mb-3">
   <div class="flex flex-row gap-2">
     <div>
-      <span class="mr-2">Agency Code:</span>
-      <input
-        type="text"
-        pInputText
-        [ngModel]="agencyCodeFilter$()"
-        (ngModelChange)="onFilterChange($event, 'agency_code')"
-        [disabled]="!dataReady"
-      />
-    </div>
-    <div>
       <span class="ml-3 mr-2">Reporting Unit ID:</span>
       <input
         type="text"
@@ -20,6 +10,16 @@
         [disabled]="!dataReady"
         min="1900"
         max="2100"
+      />
+    </div>
+    <div>
+      <span class="mr-2">Agency Code:</span>
+      <input
+        type="text"
+        pInputText
+        [ngModel]="agencyCodeFilter$()"
+        (ngModelChange)="onFilterChange($event, 'agency_code')"
+        [disabled]="!dataReady"
       />
     </div>
     <div>
@@ -44,15 +44,15 @@
   >
     <ng-template pTemplate="header">
       <tr>
-        <th>Agency Code</th>
         <th>Reporting Unit ID</th>
+        <th>Agency Code</th>
         <th>Reporting Unit Name</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-reportingAgency>
       <tr *ngIf="dataReady">
-        <td>{{ reportingAgency.agency_code }}</td>
         <td>{{ reportingAgency.reporting_unit_id }}</td>
+        <td>{{ reportingAgency.agency_code }}</td>
         <td>{{ reportingAgency.reporting_unit_name }}</td>
       </tr>
     </ng-template>
