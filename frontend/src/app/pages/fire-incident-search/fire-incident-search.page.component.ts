@@ -1,4 +1,4 @@
-import {Component, OnInit, signal, Signal, WritableSignal} from '@angular/core';
+import {Component, OnInit, signal, Signal, ViewChild, WritableSignal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ButtonModule} from 'primeng/button';
 import {RouterLink} from '@angular/router';
@@ -13,7 +13,7 @@ import {FormsModule} from "@angular/forms";
 import {TableModule} from "primeng/table";
 import {InputTextModule} from "primeng/inputtext";
 import {DropdownModule} from "primeng/dropdown";
-import {PaginatorModule} from "primeng/paginator";
+import {Paginator, PaginatorModule} from "primeng/paginator";
 
 @Component({
   selector: 'fire-incident-search',
@@ -47,11 +47,17 @@ export class FireIncidentSearchComponent implements OnInit {
   lastRowIndex = 10;
   dataReady: boolean = false;
 
+  @ViewChild('paginatorRef') paginator!: Paginator;
+
   constructor(
     private dbStatusService: DbStatusService,
     private fireIncidentService: FireIncidentsService
   ) {
     this.filterChangeSubject.pipe(debounceTime(2000)).subscribe(() => {
+      this.firstRowIndex = 0;
+      this.lastRowIndex = this.totalSize$() > this.rowsPerPage$() ? this.rowsPerPage$() : this.totalSize$();
+      this.currentPage$.set(1);
+      this.paginator.changePage(0);
       this.updateData();
     });
   }
@@ -92,6 +98,7 @@ export class FireIncidentSearchComponent implements OnInit {
   }
 
   onPageChange(event: any) {
+    this.rowsPerPage$.set(event.rows);
     this.firstRowIndex = event.first;
     this.lastRowIndex = event.page + 1 !== event.pageCount ? this.firstRowIndex + this.rowsPerPage$() : this.totalSize$();
     this.currentPage$.set(event.page + 1);

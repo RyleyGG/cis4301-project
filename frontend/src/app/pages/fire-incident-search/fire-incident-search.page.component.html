@@ -71,6 +71,7 @@
   </p-table>
   <div>
     <p-paginator
+      #paginatorRef
       [pageLinkSize]="10"
       [rows]="rowsPerPage$()"
       [totalRecords]="totalSize$()"
