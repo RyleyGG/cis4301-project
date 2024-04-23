@@ -7,7 +7,7 @@ from sqlalchemy import text
 from sqlmodel import Session, select
 
 from models.db_models import FireIncident, ReportingAgency, NWCGUnit
-from models.dto_models import FireIncidentFilters, WildFireChangesInSizeAndFrequency, wildfireSizeBasedOnGeoFilters, WildfireTypesBasedOnGeo, WildFireChangesInSizeAndFrequencyFilters, WildfireTypesBasedOnGeoFilters, SizeOfWildfireTypesFilters, AgencyContaintmentTimeFilters
+from models.dto_models import FireIncidentFilters, WildFireChangesInSizeAndFrequency, wildfireSizeBasedOnGeoFilters, WildfireTypesBasedOnGeo, WildFireChangesInSizeAndFrequencyFilters, WildfireTypesBasedOnGeoFilters, AgencyContaintmentTimeFilters
 from services.api_utility_service import get_session
 
 router = APIRouter()
@@ -49,11 +49,8 @@ async def wildfire_changes_in_size_and_freq_query(filters: WildFireChangesInSize
     query_statement = " ".join(query_statement)
 
 
-    print("QUERY: ", query_statement)
-    query_statement = select(FireIncident).from_statement(text(query_statement))
-    print("QUERY AFTER: ", query_statement)
-    return_obj = db.execute(query_statement).all()
-    print("RETURN OBJ: ", return_obj)
+    exem_statement = select(FireIncident).from_statement(text(query_statement))
+    return_obj = db.execute(exem_statement).all()
     return return_obj
 
 
@@ -144,7 +141,7 @@ async def agency_containtment_time_vs_size_query(filters: AgencyContaintmentTime
 
 
 @router.post("/size-of-wildfire-types-form-submission")
-async def size_of_wildfire_types_query(filters: SizeOfWildfireTypesFilters, db: Session = Depends(get_session)):
+async def size_of_wildfire_types_query(filters: wildfireSizeBasedOnGeoFilters, db: Session = Depends(get_session)):
     # Construct the SQL query using safe parameter binding
 
     if isinstance(filters.start_date, str):

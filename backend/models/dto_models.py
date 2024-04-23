@@ -72,15 +72,32 @@ class AgencyContaintmentTime(BaseModel):
 
 
 # Size Of Types Filters and DTO
-class SizeOfWildfireTypesFilters(BaseModel):
+
+class wildfireSizeBasedOnGeoFilters(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
     reporting_agency: Optional[str] = None
     wildfire_type: Optional[str] = None
 
-class wildfireSizeBasedOnGeoFilters(BaseModel):
+
+class wildfireSizeBasedOnGeo(BaseModel):
+    year_of_fire: Optional[int] = None
+    reporting_unit_name: Optional[str] = None
+    fires: Optional[int] = None
+    avg_fire_size: Optional[float] = None
+    largest_fire_size: Optional[int] = None
+
+
+# WildFire Sizes Based on Geographical Area
+
+class WildFireSizesBasedOnGeo(BaseModel):
+    year_of_fire: Optional[int] = None
+    state_affiliation: Optional[str] = None
+    avg_fire_size: Optional[float] = None
+    largest_fire_size: Optional[int] = None
+
+class WildFireSizesBasedOnGeoFilters(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
     geographic_area: Optional[str] = None
 
-# Size And Frequency Filters and DTO

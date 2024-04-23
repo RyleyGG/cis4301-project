@@ -1,14 +1,14 @@
-// WildFire Sizes Based on Geographical Area
-
-export interface wildfireSizeBasedOnGeoFilters {
+// WildFire Size and Frequency
+export interface WildFireChangesInSizeAndFrequencyFilters {
   start_date?: Date;
   end_date?: Date;
-  geographic_area?: string;
 }
 
-// TODO: define return structure for graph
-export interface wildfireSizeBasedOnGeoData {
-
+export interface WildFireChangesInSizeAndFrequency {
+  year_of_fire?: number;
+  avg_fire_size?: number;
+  total_number_of_fires?: number
+  total_fires_size?: number
 }
 
 // WildFire Types based on Geographical Area
@@ -21,8 +21,14 @@ export interface WildfireTypesBasedOnGeoFilters {
 }
 
 export interface WildfireTypesBasedOnGeoData {
-
+  year_of_fire?: number;
+  cause_description?: string;
+  avg_fire_size?: number;
+  total_number_of_fires?: number;
+  total_fires_size?: number;
+  fire_type?: number;
 }
+
 
 
 // Agency Containment Time
@@ -33,9 +39,12 @@ export interface AgencyContaintmentTimeFilters {
 }
 
 export interface AgencyContaintmentTimeData {
-
+  year_of_fire?: number;
+  reporting_unit_name?: string;
+  time_to_contain?: number;
+  total_fires?: number;
+  avg_size_of_fires?: number;
 }
-
 
 // Size of Wildfire Types
 export interface SizeOfWildfireTypesFilters {
@@ -46,22 +55,34 @@ export interface SizeOfWildfireTypesFilters {
 }
 
 export interface SizeOfWildfireTypesData {
-
-}
-
-
-// WildFire Size and Frequency
-export interface WildFireChangesInSizeAndFrequency {
   year_of_fire?: number;
+  reporting_unit_name?: string;
+  fires?: number;
   avg_fire_size?: number;
-  total_number_of_fires?: number
-  total_fires_size?: number
+  largest_fire_size?: number;
 }
 
 
-export interface WildFireChangesInSizeAndFrequencyFilters {
+// WildFire Sizes Based on Geographical Area
+
+export interface wildfireSizeBasedOnGeoFilters {
   start_date?: Date;
   end_date?: Date;
+  geographic_area?: string;
 }
+
+// TODO: define return structure for graph
+export interface wildfireSizeBasedOnGeoData {
+  year_of_fire?: number;
+  state_affiliation?: string;
+  avg_fire_size?: number;
+  largest_fire_size?: number;
+}
+
+
+
+
+
+
 
 
