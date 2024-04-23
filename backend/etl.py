@@ -1,3 +1,4 @@
+import datetime
 import sqlite3
 from sqlite3 import Cursor
 
@@ -7,6 +8,18 @@ import os
 
 from models.db_models import FireIncident, ReportingAgency, NWCGUnit
 from services.api_utility_service import engine
+
+
+def sqlite_julian_to_datetime(julian_day):
+    if not julian_day:
+        return None
+
+    # Offset for Julian Day numbers as defined by SQLite
+    julian_offset = 1721425.5  # Days from 4714 B.C. to 1 A.D. plus half a day offset for noon-based Julian days
+    days_from_start = julian_day - julian_offset
+
+    # Convert to datetime by adding days to the start of the proleptic Gregorian calendar
+    return datetime.datetime(1, 1, 1) + datetime.timedelta(days=days_from_start)
 
 
 def load_nwcg_unit_data(cursor: Cursor, db: Session):
@@ -83,13 +96,12 @@ def load_fire_data(cursor: Cursor, db: Session):
 
     rows = cursor.fetchall()
     for row in rows:
-        # TODO: add datetimes
         new_fire_obj = FireIncident(
             id=row[0],
             cause_code=row[1],
             cause_description=row[2],
-            discovery_datetime=None,
-            containment_datetime=None,
+            discovery_datetime=sqlite_julian_to_datetime(row[3]),
+            containment_datetime=sqlite_julian_to_datetime(row[5]),
             size_acres=row[7],
             size_category=row[8],
             year_of_fire=row[9],
