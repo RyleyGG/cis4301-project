@@ -24,7 +24,7 @@ async def root():
 
 ## Wildfire Changes In Size And Frequency Query
 @router.post('/changes-in-size-and-frequency-form-submission', response_model=List[WildFireChangesInSizeAndFrequency], response_model_by_alias=False)
-async def search_fire_incidents(filters: WildFireChangesInSizeAndFrequencyFilters, db: Session = Depends(get_session)):
+async def wildfire_changes_in_size_and_freq_query(filters: WildFireChangesInSizeAndFrequencyFilters, db: Session = Depends(get_session)):
     # Ensure date strings are converted to datetime objects
     if isinstance(filters.start_date, str):
         filters.start_date = datetime.fromisoformat(filters.start_date)
@@ -58,7 +58,7 @@ async def search_fire_incidents(filters: WildFireChangesInSizeAndFrequencyFilter
 
 
 @router.post('/type-of-wildfire-form-submission', response_model=List[WildfireTypesBasedOnGeo], response_model_by_alias=False)
-async def search_fire_incidents(filters: WildfireTypesBasedOnGeoFilters, db: Session = Depends(get_session)):
+async def size_of_types_of_wildfires(filters: WildfireTypesBasedOnGeoFilters, db: Session = Depends(get_session)):
     # Convert strings to datetime objects if needed
     if isinstance(filters.start_date, str):
         filters.start_date = datetime.fromisoformat(filters.start_date)
@@ -97,13 +97,13 @@ async def search_fire_incidents(filters: WildfireTypesBasedOnGeoFilters, db: Ses
 
     # Executing the query
     print("QUERY: ", query_statement)
-    query_statement = select(WildfireTypesBasedOnGeo).from_statement(text(query_statement))
-    return_obj = db.execute(query_statement).first()
+    return_obj = db.execute(text(query_statement)).fetchall()
+    print(return_obj)
     return return_obj
     
 
 @router.post("/agency-containment-time-form")
-async def get_fire_reports(filters: AgencyContaintmentTimeFilters, db: Session = Depends(get_session)):
+async def agency_containtment_time_vs_size_query(filters: AgencyContaintmentTimeFilters, db: Session = Depends(get_session)):
     # Construct the SQL query
 
     if isinstance(filters.start_date, str):
@@ -142,8 +142,9 @@ async def get_fire_reports(filters: AgencyContaintmentTimeFilters, db: Session =
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @router.post("/size-of-wildfire-types-form-submission")
-async def get_fire_causes(filters: SizeOfWildfireTypesFilters, db: Session = Depends(get_session)):
+async def size_of_wildfire_types_query(filters: SizeOfWildfireTypesFilters, db: Session = Depends(get_session)):
     # Construct the SQL query using safe parameter binding
 
     if isinstance(filters.start_date, str):
@@ -183,8 +184,9 @@ async def get_fire_causes(filters: SizeOfWildfireTypesFilters, db: Session = Dep
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @router.post("/size-of-wildfire-based-on-geographic-area-form-submission")
-async def get_fire_causes(filters: wildfireSizeBasedOnGeoFilters, db: Session = Depends(get_session)):
+async def wildfire_size_based_on_geo_query(filters: wildfireSizeBasedOnGeoFilters, db: Session = Depends(get_session)):
     # Construct the SQL query using safe parameter binding
 
     if isinstance(filters.start_date, str):
