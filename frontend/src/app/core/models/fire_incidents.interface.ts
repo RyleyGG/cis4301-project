@@ -21,4 +21,11 @@ export interface FireIncidentFilters {
   size_category?: string;
   year_of_fire_max?: number;
   year_of_fire_min?: number;
+  skip?: number;
+  take?: number;
+}
+
+export interface FireIncidentSearch {
+  fire_incidents: FireIncident[]
+  total_count: number;
 }
