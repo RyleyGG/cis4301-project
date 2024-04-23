@@ -1,5 +1,6 @@
 <div class="grid" [style]="{'margin-top': '10vh'}">
-  <p-card header="General Searching & Filtering" subheader="Ad-hoc availability to the database" class="p-card">
+  <p-card header="General Searching, Filtering, & Information" subheader="Ad-hoc availability to the database"
+          class="p-card">
     <div class="flex flex-column gap-2">
       <button
         pButton
@@ -32,6 +33,14 @@
         type="button"
         class="p-button-raised"
         [routerLink]="['/reporting-agency-search']"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Example Trend Queries"
+        type="button"
+        class="p-button-raised"
+        [routerLink]="['/example-trend-queries']"
       ></button>
     </div>
   </p-card>
