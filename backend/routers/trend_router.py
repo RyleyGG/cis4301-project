@@ -7,7 +7,10 @@ from sqlalchemy import text
 from sqlmodel import Session, select
 
 from models.db_models import FireIncident, ReportingAgency, NWCGUnit
-from models.dto_models import FireIncidentFilters, WildFireChangesInSizeAndFrequency,AgencyContaintmentTime, WildfireSizeBasedOnGeoFilters, WildFireSizesBasedOnGeo, WildfireTypesBasedOnGeo, WildFireChangesInSizeAndFrequencyFilters, WildfireTypesBasedOnGeoFilters, AgencyContaintmentTimeFilters, SizeOfWildfireTypesFilters, SizeOfWildfireTypesData
+from models.dto_models import FireIncidentFilters, WildFireChangesInSizeAndFrequency, AgencyContaintmentTime, \
+    WildfireSizeBasedOnGeoFilters, WildFireSizesBasedOnGeo, WildfireTypesBasedOnGeo, \
+    WildFireChangesInSizeAndFrequencyFilters, WildfireTypesBasedOnGeoFilters, AgencyContaintmentTimeFilters, \
+    SizeOfWildfireTypesFilters, SizeOfWildfireTypesData, UnitInformation
 from services.api_utility_service import get_session
 
 router = APIRouter()
@@ -17,6 +20,24 @@ router = APIRouter()
 async def root():
     return {'message': 'Hello From the Trends router!'}
 
+
+@router.get('/unit_information', response_model=List[UnitInformation], response_model_by_alias=False)
+async def get_unit_information(db: Session = Depends(get_session)):
+    query_statement = "SELECT DISTINCT unit_name, geographic_area_code FROM \"NWCGUnit\""
+    print(query_statement)
+    return_obj = db.execute(text(query_statement)).fetchall()
+    return return_obj
+
+
+@router.get('/cause_descriptions', response_model=List[str], response_model_by_alias=False)
+async def get_cause_descriptions(db: Session = Depends(get_session)):
+    query_statement = "SELECT DISTINCT cause_description FROM \"FireIncident\""
+    print(query_statement)
+    exec_obj = db.execute(text(query_statement)).fetchall()
+    return_obj = []
+    for obj in exec_obj:
+        return_obj.append(obj._mapping['cause_description'])
+    return return_obj
 
 ## Wildfire Changes In Size And Frequency Query
 @router.post('/changes-in-size-and-frequency', response_model=List[WildFireChangesInSizeAndFrequency], response_model_by_alias=False)
@@ -91,14 +112,18 @@ async def wildfires_based_on_geo(filters: WildfireTypesBasedOnGeoFilters, db: Se
             query_statement += f" year_of_fire <= {filters.end_date}"
         if filters.geographic_area:
             query_statement += " AND" if filters.start_date or filters.end_date else ''
+            query_statement += ' ('
             for item in filters.geographic_area:
-                query_statement += f" geographic_area_code = '{item}' OR"
-            query_statement = query_statement[:-3]
+                query_statement += f"geographic_area_code = '{item}' OR "
+            query_statement = query_statement[:-4]
+            query_statement += ')'
         if filters.cause_description:
             query_statement += " AND" if filters.start_date or filters.end_date or filters.geographic_area else ''
+            query_statement += ' ('
             for item in filters.cause_description:
-                query_statement += f" cause_description = '{item}' OR"
-            query_statement = query_statement[:-3]
+                query_statement += f"cause_description = '{item}' OR "
+            query_statement = query_statement[:-4]
+            query_statement += ')'
 
     # Completing the query with grouping and ordering
     query_statement += " GROUP BY year_of_fire, cause_description, geographic_area_code ORDER BY year_of_fire, total_number_of_fires DESC"

@@ -20,6 +20,11 @@ export interface WildfireTypesBasedOnGeoFilters {
   cause_description?: string[];
 }
 
+export interface UnitInformation {
+  unit_name: string;
+  geographic_area_code: string;
+}
+
 export interface WildfireTypesBasedOnGeoData {
   year_of_fire: number;
   cause_description?: string;

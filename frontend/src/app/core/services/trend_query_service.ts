@@ -13,7 +13,7 @@ import {
   wildfireSizeBasedOnGeoData,
   wildfireSizeBasedOnGeoFilters,
   WildfireTypesBasedOnGeoData,
-  WildfireTypesBasedOnGeoFilters
+  WildfireTypesBasedOnGeoFilters, UnitInformation
 } from "../models/trend_query_dto.interface";
 
 
@@ -72,5 +72,21 @@ export class TrendQueryService {
     )
   }
 
+  getUnitInformation(): Observable<UnitInformation[]> {
+    return this.httpClient.get<UnitInformation[]>(this.REST_API_SERVER + '/trends/unit_information').pipe(
+      take(1),
+      map((res: UnitInformation[]) => {
+        return res;
+      })
+    )
+  }
 
+  getCauseDescriptions(): Observable<string[]> {
+    return this.httpClient.get<string[]>(this.REST_API_SERVER + '/trends/cause_descriptions').pipe(
+      take(1),
+      map((res: string[]) => {
+        return res;
+      })
+    )
+  }
 }

@@ -73,6 +73,11 @@ class WildfireTypesBasedOnGeoFilters(BaseModel):
     cause_description: Optional[List[str]] = None
 
 
+class UnitInformation(BaseModel):
+    unit_name: str
+    geographic_area_code: str
+
+
 class WildfireTypesBasedOnGeo(BaseModel):
     year_of_fire: int
     cause_description: Optional[str] = None

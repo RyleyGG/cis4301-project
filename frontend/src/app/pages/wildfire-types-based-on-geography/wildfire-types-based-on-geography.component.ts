@@ -1,4 +1,4 @@
-import {Component, signal, WritableSignal} from '@angular/core';
+import {Component, OnInit, signal, WritableSignal} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {CalendarModule} from 'primeng/calendar';
 import {ChartModule} from 'primeng/chart';
@@ -8,7 +8,7 @@ import {
   WildfireTypesBasedOnGeoFilters
 } from "../../core/models/trend_query_dto.interface";
 import {TrendQueryService} from "../../core/services/trend_query_service";
-import {take} from "rxjs";
+import {forkJoin, take} from "rxjs";
 import {InputTextModule} from "primeng/inputtext";
 import {DropdownModule} from "primeng/dropdown";
 import {MultiSelectModule} from "primeng/multiselect";  // Make sure to import HttpClient
@@ -22,7 +22,7 @@ import {MultiSelectModule} from "primeng/multiselect";  // Make sure to import H
   styleUrls: ['./wildfire-types-based-on-geography.component.css']  // Corrected property name and syntax
 })
 
-export class wildfireTypesBasedOnGeographyComponent {
+export class wildfireTypesBasedOnGeographyComponent implements OnInit {
   startDate$: WritableSignal<number | undefined> = signal(undefined);
   endDate$: WritableSignal<number | undefined> = signal(undefined);
   geographicArea$: WritableSignal<any | undefined> = signal(undefined);
@@ -38,40 +38,31 @@ export class wildfireTypesBasedOnGeographyComponent {
   totalFireNumDataset$: WritableSignal<any[]> = signal([]);
 
   options: any;
-  dataReady = true
+  dataReady = false;
 
-  geographicAreaOpts: any = [
-    {name: "Canadian Interagency Forest Fire Centre", code: "CAMBCIFC"},
-    {name: "Alaska Interagency Coordination Center", code: "USAKCC"},
-    {name: "Northern California Area Coordination Center", code: "USCAONCC"},
-    {name: "Southern California Coordination Center", code: "USCAOSCC"},
-    {name: "Rocky Mountain Area Coordination Center", code: "USCORMCC"},
-    {name: "Southern Area Coordination Center", code: "USGASAC"},
-    {name: "National Interagency Coordination Center", code: "USIDNIC"},
-    {name: "Northern Rockies Coordination Center", code: "USMTNRC"},
-    {name: "Southwest Area Coordination Center", code: "USNMSWC"},
-    {name: "Northwest Area Coordination Center", code: "USORNWC"},
-    {name: "Western Great Basin Coordination Center", code: "USUTGBC"},
-    {name: "Eastern Area Coordination Center", code: "USWIEACC"},
-  ];
+  geographicAreaOpts: any = [];
 
-  wildfireTypeOpts: any = [
-    {name: "Powerline", code: "Powerline"},
-    {name: "Equipment Use", code: "Equipment Use"},
-    {name: "Arson", code: "Arson"},
-    {name: "Missing/Undefined", code: "Missing/Undefined"},
-    {name: "Fireworks", code: "Fireworks"},
-    {name: "Campfire", code: "Campfire"},
-    {name: "Railroad", code: "Railroad"},
-    {name: "Lightning", code: "Lightning"},
-    {name: "Miscellaneous", code: "Miscellaneous"},
-    {name: "Structure", code: "Structure"},
-    {name: "Children", code: "Children"},
-    {name: "Debris Burning", code: "Debris Burning"},
-    {name: "Smoking", code: "Smoking"},
-  ];
+  wildfireTypeOpts: any = [];
 
   constructor(private http: HttpClient, private trendQueryService: TrendQueryService) {
+  }
+
+
+  ngOnInit() {
+    forkJoin([
+      this.trendQueryService.getUnitInformation().pipe(take(1)),
+      this.trendQueryService.getCauseDescriptions().pipe(take(1))
+    ]).subscribe(([unitInfoRes, causeDescRes]) => {
+      unitInfoRes.map((obj) => {
+        this.geographicAreaOpts.push({name: obj.unit_name, code: obj.geographic_area_code});
+      });
+
+      causeDescRes.map((obj) => {
+        this.wildfireTypeOpts.push({name: obj, code: obj});
+      });
+
+      this.dataReady = true;
+    });
   }
 
   initializeChartData() {
