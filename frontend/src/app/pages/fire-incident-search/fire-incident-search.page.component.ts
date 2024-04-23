@@ -7,7 +7,7 @@ import {debounceTime, Subject, take} from "rxjs";
 
 import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {FireIncidentsService} from "../../core/services/fire_incidents_service";
-import {FireIncident} from "../../core/models/fire_incidents.interface";
+import {FireIncident, FireIncidentFilters} from "../../core/models/fire_incidents.interface";
 import {DbStatusService} from "../../core/services/database_status_service";
 import {FormsModule} from "@angular/forms";
 import {TableModule} from "primeng/table";
@@ -37,19 +37,15 @@ export class FireIncidentSearchComponent implements OnInit {
   rowsPerPage$: WritableSignal<number> = signal(10);
   totalSize$: WritableSignal<number> = signal(0);
 
-  sizeCategoryFilter$: WritableSignal<string> = signal('');
-  yearOfFireMinFilter$: WritableSignal<number> = signal(2014);
-  yearOfFireMaxFilter$: WritableSignal<number> = signal(2014);
+  sizeCategoryFilter$: WritableSignal<string | undefined> = signal(undefined);
+  yearOfFireMinFilter$: WritableSignal<number | undefined> = signal(undefined);
+  yearOfFireMaxFilter$: WritableSignal<number | undefined> = signal(undefined);
 
   private filterChangeSubject = new Subject<void>();
 
   firstRowIndex = 0;
   lastRowIndex = 10;
   dataReady: boolean = false;
-
-  get sizeCategoryFilter(): Signal<string> {
-    return this.sizeCategoryFilter$;
-  }
 
   constructor(
     private dbStatusService: DbStatusService,
@@ -72,13 +68,18 @@ export class FireIncidentSearchComponent implements OnInit {
     this.dataReady = false;
     const skip = (this.currentPage$() - 1) * this.rowsPerPage$();
     const fetchOnly = this.rowsPerPage$();
-    const filters = {
-      size_category: this.sizeCategoryFilter$(),
-      year_of_fire_min: this.yearOfFireMinFilter$(),
-      year_of_fire_max: this.yearOfFireMaxFilter$(),
-      skip: skip,
-      take: fetchOnly
-    };
+    const filters: FireIncidentFilters = {};
+    if (!!this.sizeCategoryFilter$()) {
+      filters.size_category = this.sizeCategoryFilter$();
+    }
+    if (!!this.yearOfFireMinFilter$()) {
+      filters.year_of_fire_min = this.yearOfFireMinFilter$();
+    }
+    if (!!this.yearOfFireMaxFilter$()) {
+      filters.year_of_fire_min = this.yearOfFireMaxFilter$();
+    }
+    filters.skip = skip;
+    filters.take = fetchOnly;
 
     this.fireIncidentService
       .getFireIncidents(filters)

@@ -27,6 +27,12 @@ async def search_fire_incidents(filters: FireIncidentFilters, db: Session = Depe
     except ValueError:
         pass
 
+    cleaned_key_list = []
+    for key in key_list:
+        if filters.model_dump()[key] is not None:
+            cleaned_key_list.append(key)
+    key_list = cleaned_key_list
+
     if len(key_list) != 0:
         query_statement += ' WHERE'
         if filters.size_category:

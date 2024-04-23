@@ -5,7 +5,7 @@
       <input
         type="text"
         pInputText
-        [ngModel]="sizeCategoryFilter()"
+        [ngModel]="sizeCategoryFilter$()"
         (ngModelChange)="onFilterChange($event, 'size_category')"
         [disabled]="!dataReady"
       />
