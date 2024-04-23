@@ -222,7 +222,7 @@ async def size_of_wildfire_types_query(filters: SizeOfWildfireTypesData, db: Ses
         query_parts.append("WHERE " + " AND ".join(conditions))
 
 
-    query_parts.append("GROUP BY year_of_fire, AGENCY_NAME ORDER BY year_of_fire, AGENCY_NAME")
+    query_parts.append("GROUP BY year_of_fire, agency_name ORDER BY year_of_fire, agency_name")
 
      # Combining all parts of the query into a single string
     query_statement = " ".join(query_parts)

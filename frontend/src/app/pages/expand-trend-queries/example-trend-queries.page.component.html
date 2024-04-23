@@ -50,7 +50,7 @@
     &nbsp;&nbsp;&nbsp;&nbsp;discovery_datetime IS NOT NULL AND<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;(containment_datetime - discovery_datetime) <= 500 AND<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire >= 2002 AND year_of_fire <= 2014<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;AND agency_name = 'BLM'<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;AND "ReportingAgency".agency_code = 'BLM'<br/>
     GROUP BY<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire, reporting_unit_name,<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;(containment_datetime - discovery_datetime)<br/>
@@ -62,7 +62,7 @@
   <p>
     SELECT<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire,<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;agency_name,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;"ReportingAgency".agency_name,<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;count(id) AS fires,<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;avg(size_acres) AS avg_fire_size,<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;max(size_acres) AS largest_fire_size<br/>
@@ -71,11 +71,11 @@
     JOIN "NWCGUnit" ON "ReportingAgency".reporting_unit_id = "NWCGUnit".unit_id<br/>
     WHERE<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire >= 2002 AND year_of_fire <= 2014<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;AND agency_name = 'BLM'<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;AND "ReportingAgency".agency_code = 'BLM'<br/>
     GROUP BY<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire, agency_name<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire, "ReportingAgency".agency_name<br/>
     ORDER BY<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire, agency_name<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire, "ReportingAgency".agency_name<br/>
   </p>
 
   <h2>Wildfire Sizes Based on State</h2>
