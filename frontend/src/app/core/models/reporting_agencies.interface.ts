@@ -1,5 +1,6 @@
 export interface ReportingAgency {
   agency_code: string;
+  agency_name?: string;
   reporting_unit_id: string;
   reporting_unit_name: string;
 }

@@ -1,100 +1,89 @@
 <form class="content-section" (ngSubmit)="submitContainmentForm()">
   <h1>Agency Containment Time vs Wildfire Size</h1>
-  <p class="description">Select a category to view data and trends:</p>
-  <div class="flex-container">
-    <div class="form-container">
-      <div class="card">
-        <label>Time Range Start:</label>
-        <p-calendar [(ngModel)]="startDate" name="startDate"></p-calendar>
+  <p class="description">Select a category to view data and trends</p>
+  <div class="flex flex-column gap-2">
+    <div class="flex flex-row gap-1">
+      <div class="col-4 card">
+        <label>Start Year</label>
+        <input
+          type="text"
+          pInputText
+          [ngModel]="startDate$()"
+          (ngModelChange)="startDate$.set($event)"
+          [disabled]="!dataReady"
+          name="startYear"
+          min="1900"
+          max="2100"
+        />
       </div>
-      <div class="card">
-        <label>Time Range End:</label>
-        <p-calendar [(ngModel)]="endDate" name="endDate"></p-calendar>
+      <div class="col-4 card">
+        <label>End Year</label>
+        <input
+          type="text"
+          pInputText
+          [ngModel]="endDate$()"
+          (ngModelChange)="endDate$.set($event)"
+          [disabled]="!dataReady"
+          name="endYear"
+          min="1900"
+          max="2100"
+        />
       </div>
-      <div class="card">
-        <label for="reportingAgency">Reporting Agency (Optional):</label>
-        <select
-          id="reportingAgency"
-          [(ngModel)]="reportingAgency"
-          name="reportingAgency"
-          class="form-control"
-        >
-          <option value="">Select an Agency</option>
-          <option value="AG">AG - Air Guard</option>
-          <option value="ANC">ANC - Alaska Native Corporation</option>
-          <option value="BIA">BIA - Bureau of Indian Affairs</option>
-          <option value="BLM">BLM - Bureau of Land Management</option>
-          <option value="BOEM">BOEM - Bureau of Ocean Energy Management</option>
-          <option value="BOR">BOR - Bureau of Reclamation</option>
-          <option value="BSEE">
-            BSEE - Bureau of Safety and Environmental Enforcement
-          </option>
-          <option value="C&L">C&L - County & Local</option>
-          <option value="CDF">
-            CDF - California Department of Forestry & Fire Protection
-          </option>
-          <option value="DC">DC - Department of Corrections</option>
-          <option value="DFE">DFE - Division of Forest Environment</option>
-          <option value="DFF">
-            DFF - Division of Forestry Fire & State Lands
-          </option>
-          <option value="DFL">DFL - Division of Forests and Land</option>
-          <option value="DFR">DFR - Division of Forest Resources</option>
-          <option value="DL">DL - Department of Lands</option>
-          <option value="DNR">DNR - Department of Natural Resources</option>
-          <option value="DNRC">
-            DNRC - Department of Natural Resources and Conservation
-          </option>
-          <option value="DNRF">
-            DNRF - Department of Natural Resources Forest Service
-          </option>
-          <option value="DOA">DOA - Department of Agriculture</option>
-          <option value="DOC">DOC - Department of Conservation</option>
-          <option value="DOE">DOE - Department of Energy</option>
-          <option value="DOF">DOF - Department of Forestry</option>
-          <option value="DVF">DVF - Division of Forestry</option>
-          <option value="DWF">DWF - Division of Wildland Fire</option>
-          <option value="EPA">EPA - Environmental Protection Agency</option>
-          <option value="FC">FC - Forestry Commission</option>
-          <option value="FEMA">
-            FEMA - Federal Emergency Management Agency
-          </option>
-          <option value="FFC">FFC - Bureau of Forest Fire Control</option>
-          <option value="FFP">FFP - Forest Fire Protection</option>
-          <option value="FFS">FFS - Forest Fire Service</option>
-          <option value="FR">FR - Forest Rangers</option>
-          <option value="FS">FS - Forest Service</option>
-          <option value="FWS">FWS - Fish & Wildlife Service</option>
-          <option value="HQ">HQ - Headquarters</option>
-          <option value="JC">JC - Job Corps</option>
-          <option value="NBC">NBC - National Business Center</option>
-          <option value="NG">NG - National Guard</option>
-          <option value="NNSA">
-            NNSA - National Nuclear Security Administration
-          </option>
-          <option value="NPS">NPS - National Park Service</option>
-          <option value="NWS">NWS - National Weather Service</option>
-          <option value="OES">OES - Office of Emergency Services</option>
-          <option value="PRI">PRI - Private</option>
-          <option value="SF">SF - State Forestry</option>
-          <option value="SFS">SFS - State Forest Service</option>
-          <option value="SP">SP - State Parks</option>
-          <option value="TNC">TNC - The Nature Conservancy</option>
-          <option value="USA">USA - United States Army</option>
-          <option value="USACE">
-            USACE - United States Army Corps of Engineers
-          </option>
-          <option value="USAF">USAF - United States Air Force</option>
-          <option value="USGS">USGS - United States Geological Survey</option>
-          <option value="USN">USN - United States Navy</option>
-        </select>
-      </div>
-      <div class="card">
-        <button type="submit" class="btn-primary">View Results</button>
+      <div class="col-4 card">
+        <label for="reportingAgencies">Reporting Agency</label>
+        <p-multiSelect
+          [options]="reportingAgencyOpts"
+          [ngModel]="reportingAgencies$()"
+          (ngModelChange)="reportingAgencies$.set($event)"
+          [disabled]="!dataReady"
+          optionLabel="name"
+          [showClear]="true"
+          placeholder="Select a City"
+          name="reportingAgencies"
+          id="reportingAgencies"></p-multiSelect>
       </div>
     </div>
-    <div class="chart-container">
-      <p-chart type="line" [data]="data" [options]="options"></p-chart>
+    <div class="flex flex-row gap-1">
+      <div class="col-4 card">
+        <button pButton type="submit" class="btn-primary"
+                [disabled]="!dataReady || !reportingAgencies$() || !startDate$() || !endDate$()">View Results
+        </button>
+      </div>
+    </div>
+    <div class="flex flex-column gap-2">
+      <!-- Scatter Plot -->
+      <div>
+        <label for="scatterDataOne">Containment Time vs. Average Fire Size</label>
+        <p-chart
+          id="scatterDataOne"
+          type="scatter"
+          [data]="scatterDataOne$()"
+          [options]="scatterOpts"
+        ></p-chart>
+      </div>
+
+      <!-- Scatter Plot -->
+      <!--      <div>-->
+      <!--        <label for="scatterDataTwo">Containment Time Over the Years</label>-->
+      <!--        <p-chart-->
+      <!--          id="scatterDataTwo"-->
+      <!--          type="scatter"-->
+      <!--          [data]="scatterDataTwo$()"-->
+      <!--          [options]="scatterOpts"-->
+      <!--        ></p-chart>-->
+      <!--      </div>-->
+
+      <!--      &lt;!&ndash; Bar Chart &ndash;&gt;-->
+      <!--      <div>-->
+      <!--        <label for="barChartData">Total Fires by Agency</label>-->
+      <!--        <p-chart-->
+      <!--          id="barChartData"-->
+      <!--          type="bar"-->
+      <!--          [data]="barChartData$()"-->
+      <!--          [options]="options"-->
+      <!--        ></p-chart>-->
+      <!--      </div>-->
     </div>
   </div>
 </form>
+

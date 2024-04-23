@@ -4,8 +4,8 @@ import {TblSizeResp} from "../models/db_status.interface";
 import {HttpClient} from "@angular/common/http";
 import {FireIncident, FireIncidentFilters} from "../models/fire_incidents.interface";
 import {
-  AgencyContaintmentTimeData,
-  AgencyContaintmentTimeFilters,
+  AgencyContainmentTimeData,
+  AgencyContainmentTimeFilters,
   WildFireChangesInSizeAndFrequency,
   SizeOfWildfireTypesData,
   SizeOfWildfireTypesFilters,
@@ -13,7 +13,7 @@ import {
   wildfireSizeBasedOnGeoData,
   wildfireSizeBasedOnGeoFilters,
   WildfireTypesBasedOnGeoData,
-  WildfireTypesBasedOnGeoFilters, UnitInformation
+  WildfireTypesBasedOnGeoFilters, UnitInformation, AgencyInformation
 } from "../models/trend_query_dto.interface";
 
 
@@ -45,10 +45,10 @@ export class TrendQueryService {
     )
   }
 
-  getAgencyContainmentTime(filters: AgencyContaintmentTimeFilters): Observable<AgencyContaintmentTimeData> {
-    return this.httpClient.post<AgencyContaintmentTimeData>(this.REST_API_SERVER + `/trends/agency-containment-time-form`, filters).pipe(
+  getAgencyContainmentTime(filters: AgencyContainmentTimeFilters): Observable<AgencyContainmentTimeData[]> {
+    return this.httpClient.post<AgencyContainmentTimeData[]>(this.REST_API_SERVER + `/trends/agency-containment-time`, filters).pipe(
       take(1),
-      map((res: AgencyContaintmentTimeData) => {
+      map((res: AgencyContainmentTimeData[]) => {
         return res;
       })
     )
@@ -85,6 +85,15 @@ export class TrendQueryService {
     return this.httpClient.get<string[]>(this.REST_API_SERVER + '/trends/cause_descriptions').pipe(
       take(1),
       map((res: string[]) => {
+        return res;
+      })
+    )
+  }
+
+  getAgencyInformation(): Observable<AgencyInformation[]> {
+    return this.httpClient.get<AgencyInformation[]>(this.REST_API_SERVER + '/trends/reporting_agencies').pipe(
+      take(1),
+      map((res: AgencyInformation[]) => {
         return res;
       })
     )

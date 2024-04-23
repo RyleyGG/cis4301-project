@@ -25,6 +25,11 @@ export interface UnitInformation {
   geographic_area_code: string;
 }
 
+export interface AgencyInformation {
+  agency_name: string;
+  agency_code: string;
+}
+
 export interface WildfireTypesBasedOnGeoData {
   year_of_fire: number;
   cause_description?: string;
@@ -37,18 +42,18 @@ export interface WildfireTypesBasedOnGeoData {
 
 
 // Agency Containment Time
-export interface AgencyContaintmentTimeFilters {
-  start_date?: Date;
-  end_date?: Date;
-  reporting_agency?: string;
+export interface AgencyContainmentTimeFilters {
+  start_date?: number;
+  end_date?: number;
+  reporting_agencies?: string[];
 }
 
-export interface AgencyContaintmentTimeData {
-  year_of_fire?: number;
+export interface AgencyContainmentTimeData {
+  year_of_fire: number;
   reporting_unit_name?: string;
-  time_to_contain?: number;
-  total_fires?: number;
-  avg_size_of_fires?: number;
+  time_to_contain: number;
+  total_fires: number;
+  avg_size_of_fires: number;
 }
 
 // Size of Wildfire Types

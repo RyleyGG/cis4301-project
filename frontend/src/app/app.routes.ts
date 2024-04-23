@@ -10,7 +10,7 @@ import {
 import {
   WildfireSizesBasedOnGeographyComponent
 } from './pages/wildfire-sizes-based-on-geography/wildfire-sizes-based-on-geography.component';
-import {AgencyContaintmentTimeComponent} from './pages/agency-containment-time/agency-containment-time.component';
+import {AgencyContainmentTimeComponent} from './pages/agency-containment-time/agency-containment-time.component';
 import {DatabaseStatusComponent} from "./pages/db-status/database-status.page.component";
 import {SizeOfWildfireTypesComponent} from './pages/size-of-wildfire-types/size-of-wildfire-types.component';
 import {FireIncidentSearchComponent} from "./pages/fire-incident-search/fire-incident-search.page.component";
@@ -25,7 +25,7 @@ export const routes: Routes = [
   {path: "wildfire-changes-in-size-and-frequency", component: WildfireChangesInSizeAndFrequencyComponent},
   {path: "wildfire-sizes-geography", component: WildfireSizesBasedOnGeographyComponent},
   {path: "wildfire-types-geography", component: wildfireTypesBasedOnGeographyComponent},
-  {path: "containment-vs-size", component: AgencyContaintmentTimeComponent},
+  {path: "containment-vs-size", component: AgencyContainmentTimeComponent},
   {path: "wildfire-types-size", component: SizeOfWildfireTypesComponent},
   {path: "status", component: DatabaseStatusComponent},
   {path: "fire-incident-search", component: FireIncidentSearchComponent},

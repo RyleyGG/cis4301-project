@@ -77,6 +77,10 @@ class UnitInformation(BaseModel):
     unit_name: str
     geographic_area_code: str
 
+class AgencyInformation(BaseModel):
+    agency_name: str
+    agency_code: str
+
 
 class WildfireTypesBasedOnGeo(BaseModel):
     year_of_fire: int
@@ -90,17 +94,17 @@ class WildfireTypesBasedOnGeo(BaseModel):
 
 # Agency Containment Filters and DTO
 class AgencyContaintmentTimeFilters(BaseModel):
-    start_date: Optional[datetime] = None
-    end_date: Optional[datetime] = None
-    reporting_agency: Optional[str] = None
+    start_date: Optional[int] = None
+    end_date: Optional[int] = None
+    reporting_agencies: Optional[List[str]] = None
 
 
 class AgencyContaintmentTime(BaseModel):
-    year_of_fire: Optional[int] = None
-    reporting_unit_name: Optional[str] = None
-    time_to_contain: Optional[datetime] = None
-    total_fires: Optional[int] = None
-    avg_size_of_fires: Optional[float] = None
+    year_of_fire: int
+    reporting_unit_name: Optional[str]
+    time_to_contain: int
+    total_fires: int
+    avg_size_of_fires: float
 
 
 # Size Of Types Filters and DTO

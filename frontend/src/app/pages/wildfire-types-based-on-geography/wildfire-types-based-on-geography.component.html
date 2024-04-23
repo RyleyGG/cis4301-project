@@ -1,6 +1,6 @@
 <form class="content-section" (ngSubmit)="submitTypesForm()">
   <h1>Wildfire Types Based on Geography</h1>
-  <p class="description">Select a category to view data and trends:</p>
+  <p class="description">Select a category to view data and trends</p>
   <div class="flex flex-column gap-2">
     <div class="flex flex-row gap-1">
       <div class="col-6 card">
@@ -32,7 +32,7 @@
     </div>
     <div class="flex flex-row gap-1">
       <div class="col-4 card">
-        <label for="geographicArea">Geographic Area:</label>
+        <label for="geographicArea">Geographic Area</label>
         <p-multiSelect
           [options]="geographicAreaOpts"
           [ngModel]="geographicArea$()"
@@ -40,7 +40,7 @@
           [disabled]="!dataReady"
           optionLabel="name"
           [showClear]="true"
-          placeholder="Select a City"
+          placeholder="Select an Area Code"
           name="geographicArea"
           id="geographicArea"></p-multiSelect>
       </div>
@@ -53,7 +53,7 @@
           optionLabel="name"
           [disabled]="!dataReady"
           [showClear]="true"
-          placeholder="Select a City"
+          placeholder="Select a Cause Description"
           name="wildfireType"
           id="wildfireType"></p-multiSelect>
       </div>

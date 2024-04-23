@@ -9,6 +9,59 @@ import os
 from models.db_models import FireIncident, ReportingAgency, NWCGUnit
 from services.api_utility_service import engine
 
+agency_conversion = {
+    "AG": "Air Guard",
+    "ANC": "Alaska Native Corporation",
+    "BIA": "Bureau of Indian Affairs",
+    "BLM": "Bureau of Land Management",
+    "BOEM": "Bureau of Ocean Energy Management",
+    "BOR": "Bureau of Reclamation",
+    "BSEE": "Bureau of Safety and Environmental Enforcement",
+    "C&L": "County & Local",
+    "CDF": "California Department of Forestry & Fire Protection",
+    "DC": "Department of Corrections",
+    "DFE": "Division of Forest Environment",
+    "DFF": "Division of Forestry Fire & State Lands",
+    "DFL": "Division of Forests and Land",
+    "DFR": "Division of Forest Resources",
+    "DL": "Department of Lands",
+    "DNR": "Department of Natural Resources",
+    "DNRC": "Department of Natural Resources and Conservation",
+    "DNRF": "Department of Natural Resources Forest Service",
+    "DOA": "Department of Agriculture",
+    "DOC": "Department of Conservation",
+    "DOE": "Department of Energy",
+    "DOF": "Department of Forestry",
+    "DVF": "Division of Forestry",
+    "DWF": "Division of Wildland Fire",
+    "EPA": "Environmental Protection Agency",
+    "FC": "Forestry Commission",
+    "FEMA": "Federal Emergency Management Agency",
+    "FFC": "Bureau of Forest Fire Control",
+    "FFP": "Forest Fire Protection",
+    "FFS": "Forest Fire Service",
+    "FR": "Forest Rangers",
+    "FS": "Forest Service",
+    "FWS": "Fish & Wildlife Service",
+    "HQ": "Headquarters",
+    "JC": "Job Corps",
+    "NBC": "National Business Center",
+    "NG": "National Guard",
+    "NNSA": "National Nuclear Security Administration",
+    "NPS": "National Park Service",
+    "NWS": "National Weather Service",
+    "OES": "Office of Emergency Services",
+    "PRI": "Private",
+    "SF": "State Forestry",
+    "SFS": "State Forest Service",
+    "SP": "State Parks",
+    "TNC": "The Nature Conservancy",
+    "USA": "United States Army",
+    "USACE": "United States Army Corps of Engineers",
+    "USAF": "United States Air Force",
+    "USGS": "United States Geological Survey",
+    "USN": "United States Navy"
+}
 
 def sqlite_julian_to_datetime(julian_day):
     if not julian_day:
@@ -42,7 +95,8 @@ def load_nwcg_unit_data(cursor: Cursor, db: Session):
         new_unit_obj = NWCGUnit(
             unit_id=row[0],
             parent_agency=row[1],
-            agency_name=row[2],
+            agency_code=row[2],
+            agency_name=agency_conversion[row[2]] if row[2] in list(agency_conversion.keys()) else None,
             department_or_state=row[3] if row[3] else row[4],
             wildland_role=row[5],
             geographic_area_code=row[6],
@@ -66,6 +120,7 @@ def load_reporting_agency_data(cursor: Cursor, db: Session):
     for row in rows:
         new_reporting_agency_obj = ReportingAgency(
             agency_code=row[0],
+            agency_name=agency_conversion[row[0]] if row[0] in list(agency_conversion.keys()) else None,
             reporting_unit_id=row[1],
             reporting_unit_name=row[2]
         )
@@ -147,6 +202,8 @@ def main():
     reporting_agency_count = select(func.count()).select_from(ReportingAgency)
     total = session.exec(fire_count).one() + session.exec(nwcg_count).one() + session.exec(reporting_agency_count).one()
     print(f'\nETL complete! The total number of rows in the database is: {total}', flush=True)
+
+    sqlite_connection.close()
 
 
 if __name__ == '__main__':

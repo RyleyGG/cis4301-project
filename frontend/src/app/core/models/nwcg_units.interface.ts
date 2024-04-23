@@ -1,7 +1,8 @@
 export interface NWCGUnit {
   unit_id: string;
   parent_agency: string;
-  agency_name: string;
+  agency_name?: string;
+  agency_code: string;
   department_or_state?: string;
   wildland_role: string;
   geographic_area_code: string;
