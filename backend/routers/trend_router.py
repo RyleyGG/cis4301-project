@@ -56,48 +56,55 @@ async def wildfire_changes_in_size_and_freq_query(filters: WildFireChangesInSize
     return return_obj
 
 
-@router.post('/type-of-wildfire-form-submission', response_model=List[WildfireTypesBasedOnGeo], response_model_by_alias=False)
-async def size_of_types_of_wildfires(filters: WildfireTypesBasedOnGeoFilters, db: Session = Depends(get_session)):
-    # Convert strings to datetime objects if needed
-    if isinstance(filters.start_date, str):
-        filters.start_date = datetime.fromisoformat(filters.start_date)
-    if isinstance(filters.end_date, str):
-        filters.end_date = datetime.fromisoformat(filters.end_date)
+@router.post('/type-of-wildfire-geo', response_model=List[WildfireTypesBasedOnGeo], response_model_by_alias=False)
+async def wildfires_based_on_geo(filters: WildfireTypesBasedOnGeoFilters, db: Session = Depends(get_session)):
 
     # Constructing the base query
-    query_parts = [
-        "SELECT YEAR_OF_FIRE, CAUSE_DESCRIPTION, AVG(SIZE_ACRES) AS Avg_Fire_Size, COUNT(ID) AS Total_Number_of_Fires,",
-        "SUM(SIZE_ACRES) AS TOTAL_FIRES_SIZE, COUNT(CAUSE_DESCRIPTION) AS FIRE_TYPE",
-        "FROM \"FireIncident\"",
-        "JOIN \"ReportingAgency\" ON \"FireIncident\".AGENCY_CODE_ID = \"ReportingAgency\".AGENCY_CODE",
-        "JOIN \"NWCGUnit\" ON \"ReportingAgency\".REPORTING_UNIT_ID = \"NWCGUnit\".UNIT_ID"
-    ]
+    query_statement = ("SELECT year_of_fire, cause_description, geographic_area_code, AVG(size_acres) AS avg_fire_size, COUNT(id) AS total_number_of_fires," +
+                       " SUM(size_acres) AS total_fires_size, COUNT(cause_description) AS cause_description_count" +
+                       " FROM \"FireIncident\"" +
+                       " JOIN \"ReportingAgency\" ON \"FireIncident\".AGENCY_CODE_ID = \"ReportingAgency\".AGENCY_CODE" +
+                       " JOIN \"NWCGUnit\" ON \"ReportingAgency\".REPORTING_UNIT_ID = \"NWCGUnit\".UNIT_ID")
 
-    # Building the conditions for the WHERE clause
-    conditions = [
-        f"YEAR_OF_FIRE >= {filters.start_date.year}",
-        f"YEAR_OF_FIRE <= {filters.end_date.year}",
-        f"GEOGRAPHIC_AREA_CODE = '{filters.geographic_area}'",
-        f"CAUSE_DESCRIPTION = '{filters.wildfire_type}'"
-    ]
+    key_list = list(filters.model_dump().keys())
+    try:
+        key_list.pop(key_list.index('skip'))
+    except ValueError:
+        pass
+    try:
+        key_list.pop(key_list.index('take'))
+    except ValueError:
+        pass
 
-    # Adding the WHERE clause if there are conditions
-    if conditions:
-        query_parts.append("WHERE " + " AND ".join(conditions))
+    cleaned_key_list = []
+    for key in key_list:
+        if filters.model_dump()[key] is not None:
+            cleaned_key_list.append(key)
+    key_list = cleaned_key_list
+
+    if len(key_list) != 0:
+        query_statement += ' WHERE'
+        if filters.start_date:
+            query_statement += f" year_of_fire >= {filters.start_date}"
+        if filters.end_date:
+            query_statement += " AND" if filters.end_date else ''
+            query_statement += f" year_of_fire <= {filters.end_date}"
+        if filters.geographic_area:
+            query_statement += " AND" if filters.start_date or filters.end_date else ''
+            for item in filters.geographic_area:
+                query_statement += f" geographic_area_code = '{item}' OR"
+            query_statement = query_statement[:-3]
+        if filters.cause_description:
+            query_statement += " AND" if filters.start_date or filters.end_date or filters.geographic_area else ''
+            for item in filters.cause_description:
+                query_statement += f" cause_description = '{item}' OR"
+            query_statement = query_statement[:-3]
 
     # Completing the query with grouping and ordering
-    query_parts.append(
-        "GROUP BY YEAR_OF_FIRE, CAUSE_DESCRIPTION, GEOGRAPHIC_AREA_CODE ORDER BY YEAR_OF_FIRE, Total_Number_of_Fires DESC"
-    )
+    query_statement += " GROUP BY year_of_fire, cause_description, geographic_area_code ORDER BY year_of_fire, total_number_of_fires DESC"
 
-    # Combining all parts of the query into a single string
-    query_statement = " ".join(query_parts)
-    
-
-    # Executing the query
-    print("QUERY: ", query_statement)
+    print(query_statement)
     return_obj = db.execute(text(query_statement)).fetchall()
-    print(return_obj)
     return return_obj
     
 

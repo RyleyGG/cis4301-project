@@ -65,22 +65,22 @@ class WildFireChangesInSizeAndFrequency(BaseModel):
     total_fires_size: Optional[float] = None
 
 
-
 # Types based on Geo Filters and DTO
 class WildfireTypesBasedOnGeoFilters(BaseModel):
-    start_date: Optional[datetime] = None
-    end_date: Optional[datetime] = None
-    geographic_area: Optional[str] = None
-    wildfire_type: Optional[str] = None
+    start_date: Optional[str] = None
+    end_date: Optional[str] = None
+    geographic_area: Optional[List[str]] = None
+    cause_description: Optional[List[str]] = None
 
 
 class WildfireTypesBasedOnGeo(BaseModel):
-    year_of_fire: Optional[int] = None
-    wildfire_type: Optional[str] = None
-    avg_fire_size: Optional[int] = None
-    total_number_of_fires: Optional[int] = None
-    total_fires_size: Optional[int] = None
-    fire_type: Optional[int] = None
+    year_of_fire: int
+    cause_description: Optional[str] = None
+    geographic_area_code: Optional[str] = None
+    avg_fire_size: float
+    total_number_of_fires: int
+    total_fires_size: float
+    cause_description_count: int
 
 
 # Agency Containment Filters and DTO

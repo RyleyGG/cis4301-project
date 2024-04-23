@@ -1,81 +1,68 @@
 <form class="content-section" (ngSubmit)="submitTypesForm()">
   <h1>Wildfire Types Based on Geography</h1>
   <p class="description">Select a category to view data and trends:</p>
-  <div class="flex-container">
-    <div class="form-container">
-      <div class="card">
-        <label>Time Range Start:</label>
-        <p-calendar [(ngModel)]="startDate" name="startDate"></p-calendar>
+  <div class="flex flex-column gap-2">
+    <div class="flex flex-row gap-1">
+      <div class="col-6 card">
+        <label>Start Year</label>
+        <input
+          type="text"
+          pInputText
+          [ngModel]="startDate$()"
+          (ngModelChange)="startDate$.set($event)"
+          [disabled]="!dataReady"
+          name="startYear"
+          min="1900"
+          max="2100"
+        />
       </div>
-      <div class="card">
-        <label>Time Range End:</label>
-        <p-calendar [(ngModel)]="endDate" name="endDate"></p-calendar>
+      <div class="col-6 card">
+        <label>End Year</label>
+        <input
+          type="text"
+          pInputText
+          [ngModel]="endDate$()"
+          (ngModelChange)="endDate$.set($event)"
+          [disabled]="!dataReady"
+          name="endYear"
+          min="1900"
+          max="2100"
+        />
       </div>
-      <div class="card">
-        <label for="geographicArea">Geographic Area (Optional):</label>
-        <select
+    </div>
+    <div class="flex flex-row gap-1">
+      <div class="col-4 card">
+        <label for="geographicArea">Geographic Area:</label>
+        <p-multiSelect
+          [options]="geographicAreaOpts"
+          [ngModel]="geographicArea$()"
+          (ngModelChange)="geographicArea$.set($event)"
+          [disabled]="!dataReady"
+          optionLabel="name"
+          [showClear]="true"
+          placeholder="Select a City"
           name="geographicArea"
-          id="geographicArea"
-          [(ngModel)]="geographicArea"
-          class="form-control"
-        >
-          <option value="">Select a Region</option>
-          <option value="CAMBCIFC">
-            Canadian Interagency Forest Fire Centre
-          </option>
-          <option value="USAKCC">Alaska Interagency Coordination Center</option>
-          <option value="USCAONCC">
-            Northern California Area Coordination Center
-          </option>
-          <option value="USCAOSCC">
-            Southern California Coordination Center
-          </option>
-          <option value="USCORMCC">
-            Rocky Mountain Area Coordination Center
-          </option>
-          <option value="USGASAC">Southern Area Coordination Center</option>
-          <option value="USIDNIC">
-            National Interagency Coordination Center
-          </option>
-          <option value="USMTNRC">Northern Rockies Coordination Center</option>
-          <option value="USNMSWC">Southwest Area Coordination Center</option>
-          <option value="USORNWC">Northwest Area Coordination Center</option>
-          <option value="USUTGBC">
-            Western Great Basin Coordination Center
-          </option>
-          <option value="USWIEACC">Eastern Area Coordination Center</option>
-        </select>
+          id="geographicArea"></p-multiSelect>
       </div>
-      <div class="card">
-        <label for="wildfireType">Wildfire Type (Optional):</label>
-        <select
+      <div class="col-4 card">
+        <label for="wildfireType">Wildfire Type</label>
+        <p-multiSelect
+          [options]="wildfireTypeOpts"
+          [ngModel]="causeDescription$()"
+          (ngModelChange)="causeDescription$.set($event)"
+          optionLabel="name"
+          [disabled]="!dataReady"
+          [showClear]="true"
+          placeholder="Select a City"
           name="wildfireType"
-          id="wildfireType"
-          [(ngModel)]="wildfireType"
-          class="form-control"
-        >
-          <option value="">Select a Fire Cause</option>
-          <option value="Powerline">Powerline</option>
-          <option value="Equipment Use">Equipment Use</option>
-          <option value="Arson">Arson</option>
-          <option value="Missing/Undefined">Missing/Undefined</option>
-          <option value="Fireworks">Fireworks</option>
-          <option value="Campfire">Campfire</option>
-          <option value="Railroad">Railroad</option>
-          <option value="Lightning">Lightning</option>
-          <option value="Miscellaneous">Miscellaneous</option>
-          <option value="Structure">Structure</option>
-          <option value="Children">Children</option>
-          <option value="Debris Burning">Debris Burning</option>
-          <option value="Smoking">Smoking</option>
-        </select>
+          id="wildfireType"></p-multiSelect>
       </div>
-      <div class="card">
-        <button type="submit" class="btn-primary">View Results</button>
+      <div class="col-4 card">
+        <button pButton type="submit" class="btn-primary" [disabled]="!dataReady">View Results</button>
       </div>
     </div>
-    <div class="chart-container">
-      <p-chart type="line" [data]="data" [options]="options"></p-chart>
-    </div>
+    <p-chart class="col-12" type="line" [data]="avgFireSizeData" [options]="options"></p-chart>
+    <p-chart class="col-12" type="line" [data]="totalFireSizeData" [options]="options"></p-chart>
+    <p-chart class="col-12" type="line" [data]="totalFireNumData" [options]="options"></p-chart>
   </div>
 </form>

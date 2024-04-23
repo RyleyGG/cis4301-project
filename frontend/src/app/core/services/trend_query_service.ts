@@ -36,10 +36,10 @@ export class TrendQueryService {
     )
   }
 
-  getWildFireTypesBasedOnGeo(filters: WildfireTypesBasedOnGeoFilters): Observable<WildfireTypesBasedOnGeoData> {
-    return this.httpClient.post<WildfireTypesBasedOnGeoData>(this.REST_API_SERVER + `/trends/type-of-wildfire-form-submission`, filters).pipe(
+  getWildFireTypesBasedOnGeo(filters: WildfireTypesBasedOnGeoFilters): Observable<WildfireTypesBasedOnGeoData[]> {
+    return this.httpClient.post<WildfireTypesBasedOnGeoData[]>(this.REST_API_SERVER + `/trends/type-of-wildfire-geo`, filters).pipe(
       take(1),
-      map((res: WildfireTypesBasedOnGeoData) => {
+      map((res: WildfireTypesBasedOnGeoData[]) => {
         return res;
       })
     )

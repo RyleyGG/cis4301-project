@@ -14,19 +14,20 @@ export interface WildFireChangesInSizeAndFrequency {
 // WildFire Types based on Geographical Area
 
 export interface WildfireTypesBasedOnGeoFilters {
-  start_date?: Date;
-  end_date?: Date;
-  geographic_area?: string;
-  wildfire_type?: string;
+  start_date?: number;
+  end_date?: number;
+  geographic_area?: string[];
+  cause_description?: string[];
 }
 
 export interface WildfireTypesBasedOnGeoData {
-  year_of_fire?: number;
+  year_of_fire: number;
   cause_description?: string;
-  avg_fire_size?: number;
-  total_number_of_fires?: number;
-  total_fires_size?: number;
-  fire_type?: number;
+  geographic_area_code?: string;
+  avg_fire_size: number;
+  total_number_of_fires: number;
+  total_fires_size: number;
+  cause_description_count: number;
 }
 
 
