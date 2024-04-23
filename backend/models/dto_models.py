@@ -23,6 +23,14 @@ class NWCGUnitFilters(BaseFilterObj):
     wildland_role: Optional[str] = None
     geographic_area_code: Optional[str] = None
 
+class FireIncidentSearch(BaseModel):
+    fire_incidents: List[FireIncident]
+    total_count: int
+
+
+class NWCGUnitSearch(BaseModel):
+    nwcg_units: List[NWCGUnit]
+    total_count: int
 
 class TblSizeResp(BaseModel):
     fire_incident_size: int
@@ -30,7 +38,7 @@ class TblSizeResp(BaseModel):
     reporting_agency_size: int
     total_size: int
 
-
+# Size And Frequency Filters and DTO
 class WildFireChangesInSizeAndFrequencyFilters(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
@@ -43,6 +51,8 @@ class WildFireChangesInSizeAndFrequency(BaseModel):
     total_fires_size: Optional[float] = None
 
 
+
+# Types based on Geo Filters and DTO
 class WildfireTypesBasedOnGeoFilters(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
@@ -59,27 +69,46 @@ class WildfireTypesBasedOnGeo(BaseModel):
     fire_type: Optional[int] = None
 
 
+# Agency Containment Filters and DTO
 class AgencyContaintmentTimeFilters(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
     reporting_agency: Optional[str] = None
 
 
-class SizeOfWildfireTypesFilters(BaseModel):
+class AgencyContaintmentTime(BaseModel):
+    year_of_fire: Optional[int] = None
+    reporting_unit_name: Optional[str] = None
+    time_to_contain: Optional[datetime] = None
+    total_fires: Optional[int] = None
+    avg_size_of_fires: Optional[float] = None
+
+
+# Size Of Types Filters and DTO
+
+class wildfireSizeBasedOnGeoFilters(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
     reporting_agency: Optional[str] = None
     wildfire_type: Optional[str] = None
 
 
-class FireIncidentSearch(BaseModel):
-    fire_incidents: List[FireIncident]
-    total_count: int
+class wildfireSizeBasedOnGeo(BaseModel):
+    year_of_fire: Optional[int] = None
+    reporting_unit_name: Optional[str] = None
+    fires: Optional[int] = None
+    avg_fire_size: Optional[float] = None
+    largest_fire_size: Optional[int] = None
 
 
-class NWCGUnitSearch(BaseModel):
-    nwcg_units: List[NWCGUnit]
-    total_count: int
+# WildFire Sizes Based on Geographical Area
+
+class WildFireSizesBasedOnGeo(BaseModel):
+    year_of_fire: Optional[int] = None
+    state_affiliation: Optional[str] = None
+    avg_fire_size: Optional[float] = None
+    largest_fire_size: Optional[int] = None
+
 
 
 class WildfireSizeBasedOnGeoFilters(BaseModel):

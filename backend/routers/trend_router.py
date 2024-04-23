@@ -7,7 +7,7 @@ from sqlalchemy import text
 from sqlmodel import Session, select
 
 from models.db_models import FireIncident, ReportingAgency, NWCGUnit
-from models.dto_models import FireIncidentFilters, WildFireChangesInSizeAndFrequency, WildfireSizeBasedOnGeoFilters, WildfireTypesBasedOnGeo, WildFireChangesInSizeAndFrequencyFilters, WildfireTypesBasedOnGeoFilters, SizeOfWildfireTypesFilters, AgencyContaintmentTimeFilters
+from models.dto_models import FireIncidentFilters, WildFireChangesInSizeAndFrequency,AgencyContaintmentTime, WildFireSizesBasedOnGeoFilters, WildFireSizesBasedOnGeo, WildfireTypesBasedOnGeo, WildFireChangesInSizeAndFrequencyFilters, WildfireTypesBasedOnGeoFilters, AgencyContaintmentTimeFilters, wildfireSizeBasedOnGeo, wildfireSizeBasedOnGeoFilters
 from services.api_utility_service import get_session
 
 router = APIRouter()
@@ -49,11 +49,8 @@ async def wildfire_changes_in_size_and_freq_query(filters: WildFireChangesInSize
     query_statement = " ".join(query_statement)
 
 
-    print("QUERY: ", query_statement)
-    query_statement = select(FireIncident).from_statement(text(query_statement))
-    print("QUERY AFTER: ", query_statement)
-    return_obj = db.execute(query_statement).all()
-    print("RETURN OBJ: ", return_obj)
+    exem_statement = select(FireIncident).from_statement(text(query_statement))
+    return_obj = db.execute(exem_statement).all()
     return return_obj
 
 
@@ -102,7 +99,7 @@ async def size_of_types_of_wildfires(filters: WildfireTypesBasedOnGeoFilters, db
     return return_obj
     
 
-@router.post("/agency-containment-time-form")
+@router.post("/agency-containment-time-form", response_model=List[AgencyContaintmentTime], response_model_by_alias=False)
 async def agency_containtment_time_vs_size_query(filters: AgencyContaintmentTimeFilters, db: Session = Depends(get_session)):
     # Construct the SQL query
 
@@ -112,7 +109,7 @@ async def agency_containtment_time_vs_size_query(filters: AgencyContaintmentTime
         filters.end_date = datetime.fromisoformat(filters.end_date)
 
     query_parts = [
-        "SELECT DISTINCT YEAR_OF_FIRE, REPORTING_UNIT_NAME, COUNT(ID) AS Total_Fires",
+        "SELECT DISTINCT YEAR_OF_FIRE, REPORTING_UNIT_NAME, (CONTAINMENT_DATETIME - DISCOVERY_DATETIME) AS Time_To_Contain, COUNT(ID) AS Total_Fires, AVG(SIZE_ACRES) AS AVG_SIZE_OF_FIRES",
         "FROM \"FireIncident\"",
         "JOIN \"ReportingAgency\" ON \"FireIncident\".AGENCY_CODE_ID = \"ReportingAgency\".AGENCY_CODE",
         "JOIN \"NWCGUnit\" ON \"ReportingAgency\".REPORTING_UNIT_ID = \"NWCGUnit\".UNIT_ID"
@@ -128,7 +125,7 @@ async def agency_containtment_time_vs_size_query(filters: AgencyContaintmentTime
         query_parts.append("WHERE " + " AND ".join(conditions))
 
 
-    query_parts.append("GROUP BY YEAR_OF_FIRE, REPORTING_UNIT_NAME ORDER BY YEAR_OF_FIRE, REPORTING_UNIT_NAME")
+    query_parts.append("GROUP BY YEAR_OF_FIRE, REPORTING_UNIT_NAME, (CONTAINMENT_DATETIME - DISCOVERY_DATETIME) ORDER BY YEAR_OF_FIRE, REPORTING_UNIT_NAME")
 
      # Combining all parts of the query into a single string
     query_statement = " ".join(query_parts)
@@ -143,8 +140,8 @@ async def agency_containtment_time_vs_size_query(filters: AgencyContaintmentTime
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.post("/size-of-wildfire-types-form-submission")
-async def size_of_wildfire_types_query(filters: SizeOfWildfireTypesFilters, db: Session = Depends(get_session)):
+@router.post("/size-of-wildfire-types-form-submission", response_model=List[wildfireSizeBasedOnGeo], response_model_by_alias=False)
+async def size_of_wildfire_types_query(filters: wildfireSizeBasedOnGeoFilters, db: Session = Depends(get_session)):
     # Construct the SQL query using safe parameter binding
 
     if isinstance(filters.start_date, str):
@@ -185,8 +182,8 @@ async def size_of_wildfire_types_query(filters: SizeOfWildfireTypesFilters, db: 
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.post("/size-of-wildfire-based-on-geographic-area-form-submission")
-async def wildfire_size_based_on_geo_query(filters: WildfireSizeBasedOnGeoFilters, db: Session = Depends(get_session)):
+@router.post("/size-of-wildfire-based-on-geographic-area-form-submission", response_model=List[WildFireSizesBasedOnGeo], response_model_by_alias=False)
+async def wildfire_size_based_on_geo_query(filters: WildFireSizesBasedOnGeoFilters, db: Session = Depends(get_session)):
     # Construct the SQL query using safe parameter binding
 
     if isinstance(filters.start_date, str):
