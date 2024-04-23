@@ -58,8 +58,7 @@ export class AgencyContaintmentTimeComponent {
     this.trendQueryService.getAgencyContainmentTime(formData)
       .pipe((take(1)))
       .subscribe((res) => {
-        console.log(res);
-
+        
         // TODO: integrate live result data into signal computation
         this.chartLabels$.set(['2000', '2001', '2002', '2003', '2004', '2005', '2006']);
         this.chartDatasets$.set([

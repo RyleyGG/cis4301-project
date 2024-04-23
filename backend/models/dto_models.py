@@ -14,6 +14,10 @@ class FireIncidentFilters(BaseModel):
     skip: Optional[int] = None
     take: Optional[int] = None
 
+class FireIncidentSearch(BaseModel):
+    fire_incidents: List[FireIncident]
+    total_count: int
+
 
 class TblSizeResp(BaseModel):
     fire_incident_size: int
@@ -21,7 +25,7 @@ class TblSizeResp(BaseModel):
     reporting_agency_size: int
     total_size: int
 
-
+# Size And Frequency Filters and DTO
 class WildFireChangesInSizeAndFrequencyFilters(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
@@ -34,6 +38,8 @@ class WildFireChangesInSizeAndFrequency(BaseModel):
     total_fires_size: Optional[float] = None
 
 
+
+# Types based on Geo Filters and DTO
 class WildfireTypesBasedOnGeoFilters(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
@@ -50,25 +56,31 @@ class WildfireTypesBasedOnGeo(BaseModel):
     fire_type: Optional[int] = None
 
 
+# Agency Containment Filters and DTO
 class AgencyContaintmentTimeFilters(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
     reporting_agency: Optional[str] = None
 
 
+class AgencyContaintmentTime(BaseModel):
+    year_of_fire: Optional[int] = None
+    reporting_unit_name: Optional[str] = None
+    time_to_contain: Optional[datetime] = None
+    total_fires: Optional[int] = None
+    avg_size_of_fires: Optional[float] = None
+
+
+# Size Of Types Filters and DTO
 class SizeOfWildfireTypesFilters(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
     reporting_agency: Optional[str] = None
     wildfire_type: Optional[str] = None
 
-
-class FireIncidentSearch(BaseModel):
-    fire_incidents: List[FireIncident]
-    total_count: int
-
-
 class wildfireSizeBasedOnGeoFilters(BaseModel):
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
     geographic_area: Optional[str] = None
+
+# Size And Frequency Filters and DTO

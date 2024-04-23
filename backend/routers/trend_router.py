@@ -112,7 +112,7 @@ async def agency_containtment_time_vs_size_query(filters: AgencyContaintmentTime
         filters.end_date = datetime.fromisoformat(filters.end_date)
 
     query_parts = [
-        "SELECT DISTINCT YEAR_OF_FIRE, REPORTING_UNIT_NAME, COUNT(ID) AS Total_Fires",
+        "SELECT DISTINCT YEAR_OF_FIRE, REPORTING_UNIT_NAME, (CONTAINMENT_DATETIME - DISCOVERY_DATETIME) AS Time_To_Contain, COUNT(ID) AS Total_Fires, AVG(SIZE_ACRES) AS AVG_SIZE_OF_FIRES",
         "FROM \"FireIncident\"",
         "JOIN \"ReportingAgency\" ON \"FireIncident\".AGENCY_CODE_ID = \"ReportingAgency\".AGENCY_CODE",
         "JOIN \"NWCGUnit\" ON \"ReportingAgency\".REPORTING_UNIT_ID = \"NWCGUnit\".UNIT_ID"
@@ -128,7 +128,7 @@ async def agency_containtment_time_vs_size_query(filters: AgencyContaintmentTime
         query_parts.append("WHERE " + " AND ".join(conditions))
 
 
-    query_parts.append("GROUP BY YEAR_OF_FIRE, REPORTING_UNIT_NAME ORDER BY YEAR_OF_FIRE, REPORTING_UNIT_NAME")
+    query_parts.append("GROUP BY YEAR_OF_FIRE, REPORTING_UNIT_NAME, (CONTAINMENT_DATETIME - DISCOVERY_DATETIME) ORDER BY YEAR_OF_FIRE, REPORTING_UNIT_NAME")
 
      # Combining all parts of the query into a single string
     query_statement = " ".join(query_parts)
