@@ -3,7 +3,7 @@ import {map, Observable, take} from "rxjs";
 import {TblSizeResp} from "../models/db_status.interface";
 import {HttpClient} from "@angular/common/http";
 import {FireIncident, FireIncidentFilters} from "../models/fire_incidents.interface";
-import {AgencyContaintmentTimeData, AgencyContaintmentTimeFilters, SizeOfWildfireTypesData ,SizeOfWildfireTypesFilters, WildFireChangesInSizeAndFrequencyData, WildFireChangesInSizeAndFrequencyFilters, wildfireSizeBasedOnGeoData, wildfireSizeBasedOnGeoFilters, WildfireTypesBasedOnGeoData, WildfireTypesBasedOnGeoFilters} from "../models/trend_query_dto.interface";
+import {AgencyContaintmentTimeData, AgencyContaintmentTimeFilters, WildFireChangesInSizeAndFrequency, SizeOfWildfireTypesData ,SizeOfWildfireTypesFilters, WildFireChangesInSizeAndFrequencyFilters, wildfireSizeBasedOnGeoData, wildfireSizeBasedOnGeoFilters, WildfireTypesBasedOnGeoData, WildfireTypesBasedOnGeoFilters} from "../models/trend_query_dto.interface";
 
 
 @Injectable({
@@ -16,10 +16,11 @@ export class TrendQueryService {
 
   }
 
-getWildFireSizeAndFrequency(filters: WildFireChangesInSizeAndFrequencyFilters): Observable<WildFireChangesInSizeAndFrequencyData> {
-  return this.httpClient.post<WildFireChangesInSizeAndFrequencyData>(this.REST_API_SERVER + `/trends/changes-in-size-and-frequency-form-submission`, filters).pipe(
+getWildFireSizeAndFrequency(filters: WildFireChangesInSizeAndFrequencyFilters): Observable<WildFireChangesInSizeAndFrequency> {
+  console.log("WORKING");
+  return this.httpClient.post<WildFireChangesInSizeAndFrequency>(this.REST_API_SERVER + `/trends/changes-in-size-and-frequency-form-submission`, filters).pipe(
     take(1),
-    map((res: WildFireChangesInSizeAndFrequencyData) => {
+    map((res: WildFireChangesInSizeAndFrequency) => {
       return res;
     })
   )

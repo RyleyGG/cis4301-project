@@ -7,7 +7,7 @@ from sqlalchemy import text
 from sqlmodel import Session, select
 
 from models.db_models import FireIncident, ReportingAgency, NWCGUnit
-from models.dto_models import FireIncidentFilters, wildfireSizeBasedOnGeoFilters, WildfireTypesBasedOnGeo, WildFireChangesInSizeAndFrequencyFilters, WildfireTypesBasedOnGeoFilters, SizeOfWildfireTypesFilters, AgencyContaintmentTimeFilters
+from models.dto_models import FireIncidentFilters, WildFireChangesInSizeAndFrequency, wildfireSizeBasedOnGeoFilters, WildfireTypesBasedOnGeo, WildFireChangesInSizeAndFrequencyFilters, WildfireTypesBasedOnGeoFilters, SizeOfWildfireTypesFilters, AgencyContaintmentTimeFilters
 from services.api_utility_service import get_session
 
 router = APIRouter()
@@ -23,7 +23,7 @@ async def root():
 ## TODO: Fix Queries structure and 
 
 ## Wildfire Changes In Size And Frequency Query
-@router.post('/changes-in-size-and-frequency-form-submission')
+@router.post('/changes-in-size-and-frequency-form-submission', response_model=List[WildFireChangesInSizeAndFrequency], response_model_by_alias=False)
 async def search_fire_incidents(filters: WildFireChangesInSizeAndFrequencyFilters, db: Session = Depends(get_session)):
     # Ensure date strings are converted to datetime objects
     if isinstance(filters.start_date, str):
@@ -31,31 +31,29 @@ async def search_fire_incidents(filters: WildFireChangesInSizeAndFrequencyFilter
     if isinstance(filters.end_date, str):
         filters.end_date = datetime.fromisoformat(filters.end_date)
 
-    query_parts = ["SELECT YEAR_OF_FIRE, AVG(SIZE_ACRES) AS Avg_Fire_Size, COUNT(ID) AS Total_Number_of_Fires, SUM(SIZE_ACRES) AS TOTAL_FIRES_SIZE FROM \"FireIncident\""]
+    query_statement = ["SELECT YEAR_OF_FIRE, AVG(SIZE_ACRES) AS Avg_Fire_Size, COUNT(ID) AS Total_Number_of_Fires, SUM(SIZE_ACRES) AS TOTAL_FIRES_SIZE FROM \"FireIncident\""]
     conditions = [
         f"YEAR_OF_FIRE >= {filters.start_date.year}",
         f"YEAR_OF_FIRE <= {filters.end_date.year}",]
 
-    # Append conditions based on filters
-    if filters.start_date:
-        conditions.append(f"YEAR_OF_FIRE >= {filters.start_date.year}")
-    if filters.end_date:
-        conditions.append(f"YEAR_OF_FIRE <= {filters.end_date.year}")
+
 
     # Combine conditions into a single WHERE clause if applicable
     if conditions:
-        query_parts.append("WHERE " + " AND ".join(conditions))
+        query_statement.append("WHERE " + " AND ".join(conditions))
 
     # Complete the query with grouping and ordering
-    query_parts.append("GROUP BY YEAR_OF_FIRE ORDER BY YEAR_OF_FIRE")
+    query_statement.append("GROUP BY YEAR_OF_FIRE ORDER BY YEAR_OF_FIRE")
 
     # Join all parts of the query into a single string
-    query_statement = " ".join(query_parts)
+    query_statement = " ".join(query_statement)
 
 
     print("QUERY: ", query_statement)
     query_statement = select(FireIncident).from_statement(text(query_statement))
+    print("QUERY AFTER: ", query_statement)
     return_obj = db.execute(query_statement).all()
+    print("RETURN OBJ: ", return_obj)
     return return_obj
 
 
@@ -196,7 +194,7 @@ async def get_fire_causes(filters: wildfireSizeBasedOnGeoFilters, db: Session = 
 
 
     query_parts = [
-        "SELECT YEAR_OF_FIRE, STATE_AFFILIATION, COUNT(ID) as Fires, AVG(SIZE_ACRES) AS Avg_Fire_Size, MAX(SIZE_ACRES) AS Largest_Fire_Size",
+        "SELECT YEAR_OF_FIRE, STATE_AFFILIATION, COUNT(ID) AS Fires, AVG(SIZE_ACRES) AS Avg_Fire_Size, MAX(SIZE_ACRES) AS Largest_Fire_Size",
         "FROM \"FireIncident\"",
         "JOIN \"ReportingAgency\" ON \"FireIncident\".AGENCY_CODE_ID = \"ReportingAgency\".AGENCY_CODE",
         "JOIN \"NWCGUnit\" ON \"ReportingAgency\".REPORTING_UNIT_ID = \"NWCGUnit\".UNIT_ID"

@@ -19,35 +19,41 @@ class TblSizeResp(BaseModel):
     total_size: int
 
 class WildFireChangesInSizeAndFrequencyFilters(BaseModel):
-    start_date: datetime
-    end_date: datetime
+    start_date: Optional[datetime] = None
+    end_date: Optional[datetime] = None
+
+class WildFireChangesInSizeAndFrequency(BaseModel):
+    year_of_fire: Optional[int] = None
+    avg_fire_size: Optional[float] = None
+    total_number_of_fires: Optional[int] = None
+    total_fires_size: Optional[float] = None
 
 class WildfireTypesBasedOnGeoFilters(BaseModel):
-    start_date: datetime
-    end_date: datetime
-    geographic_area: str
-    wildfire_type: str
+    start_date: Optional[datetime] = None
+    end_date: Optional[datetime] = None
+    geographic_area: Optional[str] = None
+    wildfire_type: Optional[str] = None
     
 class WildfireTypesBasedOnGeo(BaseModel):
-    year_of_fire: int 
-    wildfire_type: str
-    avg_fire_size: int 
-    total_number_of_fires: int
-    total_fires_size: int 
-    fire_type: int 
+    year_of_fire: Optional[int] = None 
+    wildfire_type: Optional[str] = None
+    avg_fire_size: Optional[int] = None 
+    total_number_of_fires: Optional[int] = None
+    total_fires_size: Optional[int] = None 
+    fire_type: Optional[int] = None 
 
 class AgencyContaintmentTimeFilters(BaseModel):
-    start_date: datetime
-    end_date: datetime
-    reporting_agency: str
+    start_date: Optional[datetime] = None
+    end_date: Optional[datetime] = None
+    reporting_agency: Optional[str] = None
 
 class SizeOfWildfireTypesFilters(BaseModel):
-    start_date: datetime
-    end_date: datetime
-    reporting_agency: str
-    wildfire_type: str
+    start_date: Optional[datetime] = None
+    end_date: Optional[datetime] = None
+    reporting_agency: Optional[str] = None
+    wildfire_type: Optional[str] = None
 
 class wildfireSizeBasedOnGeoFilters(BaseModel):
-    start_date: datetime
-    end_date: datetime
-    geographic_area: str
+    start_date: Optional[datetime] = None
+    end_date: Optional[datetime] = None
+    geographic_area: Optional[str] = None

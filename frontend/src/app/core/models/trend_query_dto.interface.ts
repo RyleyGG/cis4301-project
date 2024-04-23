@@ -49,12 +49,19 @@ export interface SizeOfWildfireTypesData{
 
 }
 
+
 // WildFire Size and Frequency
+export interface WildFireChangesInSizeAndFrequency{
+  year_of_fire?: number;
+  avg_fire_size?: number;
+  total_number_of_fires?: number
+  total_fires_size?: number
+}
+
+
 export interface WildFireChangesInSizeAndFrequencyFilters{
   start_date?: Date;
   end_date?: Date;
 }
 
-export interface WildFireChangesInSizeAndFrequencyData{
 
-}

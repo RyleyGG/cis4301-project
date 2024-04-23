@@ -42,6 +42,7 @@ export class WildfireChangesInSizeAndFrequencyComponent implements OnInit {
       start_date: this.startDate,
       end_date: this.endDate,
     };
+    console.log(formData);
   
     this.trendQueryService.getWildFireSizeAndFrequency(formData)
       .pipe(take(1))
