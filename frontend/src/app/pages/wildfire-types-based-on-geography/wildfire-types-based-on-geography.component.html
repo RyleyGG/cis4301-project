@@ -1,90 +1,78 @@
-<div
-  class="grid"
-  style="
-    background-color: var(--surface-section);
-    color: var(--surface-800);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  "
->
-  <div
-    class=""
-    style="
-      padding: 3rem;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    "
-  >
-    <section>
-      <div>
-        <span style="font-weight: 700; font-size: 3rem; display: block"
-          >Wildfire Types Based on Geography</span
-        >
+<form class="content-section" (ngSubmit)="submitTypesForm()">
+  <h1>Wildfire Types Based on Geography</h1>
+  <p class="description">Select a category to view data and trends</p>
+  <div class="flex flex-column gap-2">
+    <div class="flex flex-row gap-1">
+      <div class="col-6 card">
+        <label>Start Year</label>
+        <input
+          type="text"
+          pInputText
+          [ngModel]="startDate$()"
+          (ngModelChange)="startDate$.set($event)"
+          [disabled]="!dataReady"
+          name="startYear"
+          min="1900"
+          max="2100"
+        />
       </div>
-      <p
-        style="
-          color: var(--surface-700);
-          line-height: 1.5;
-          margin-bottom: 1.5rem;
-          font-size: 1.25rem;
-        "
-      >
-        Select a category to view data and trends:
-      </p>
-      <div>
-        <div>
-          <label for="timeRangeStart">Time Range Start:</label>
-          <select id="timeRangeStart">
-            <option value="2020">2020</option>
-            <option value="2021">2021</option>
-            <option value="2022">2022</option>
-            <input type="text" placeholder="User Input" />
-            <!-- Add more options as needed -->
-          </select>
-          <input type="text" placeholder="User Input" />
-        </div>
-        <br />
-        <div>
-          <label for="timeRangeEnd">Time Range End:</label>
-          <select id="timeRangeEnd">
-            <option value="2020">2020</option>
-            <option value="2021">2021</option>
-            <option value="2022">2022</option>
-            <!-- Add more options as needed -->
-          </select>
-
-          <input type="text" placeholder="User Input" />
-        </div>
-        <br />
-        <div>
-          <label for="Geographic Area">Geographic Area: </label>
-          <input type="text" placeholder="Geographic Area" />
-        </div>
-        <br />
-        <div>
-          <label for="Wildfire Type">Wildfire Type: </label>
-          <input type="text" placeholder="Wildfire Type" />
-        </div>
+      <div class="col-6 card">
+        <label>End Year</label>
+        <input
+          type="text"
+          pInputText
+          [ngModel]="endDate$()"
+          (ngModelChange)="endDate$.set($event)"
+          [disabled]="!dataReady"
+          name="endYear"
+          min="1900"
+          max="2100"
+        />
       </div>
-    </section>
-
-    <!-- Container for the graphical trend data -->
-    <div
-      id="chartContainer"
-      style="
-        margin-top: 2rem;
-        width: 100%;
-        max-width: 1000px;
-        height: 600px;
-        background-color: white;
-        border: 1px solid #cccccc;
-      "
-    >
-      <!-- The chart will be rendered inside this div -->
+    </div>
+    <div class="flex flex-row gap-1">
+      <div class="col-4 card">
+        <label for="geographicArea">Geographic Area</label>
+        <p-multiSelect
+          [options]="geographicAreaOpts"
+          [ngModel]="geographicArea$()"
+          (ngModelChange)="geographicArea$.set($event)"
+          [disabled]="!dataReady"
+          optionLabel="name"
+          [showClear]="true"
+          placeholder="Select an Area Code"
+          name="geographicArea"
+          id="geographicArea"></p-multiSelect>
+      </div>
+      <div class="col-4 card">
+        <label for="wildfireType">Wildfire Type</label>
+        <p-multiSelect
+          [options]="wildfireTypeOpts"
+          [ngModel]="causeDescription$()"
+          (ngModelChange)="causeDescription$.set($event)"
+          optionLabel="name"
+          [disabled]="!dataReady"
+          [showClear]="true"
+          placeholder="Select a Cause Description"
+          name="wildfireType"
+          id="wildfireType"></p-multiSelect>
+      </div>
+      <div class="col-4 card">
+        <button pButton type="submit" class="btn-primary" [disabled]="!dataReady">View Results</button>
+      </div>
+    </div>
+    <!--    <div>-->
+    <!--      <label for="avgFireSizeData">Average Fire Size (Acres)</label>-->
+    <!--      <p-chart id="avgFireSizeData" class="col-12" type="line" [data]="avgFireSizeData" [options]="options"></p-chart>-->
+    <!--    </div>-->
+    <!--    <div>-->
+    <!--      <label for="totalFireSizeData">Total Fire Size (Acres)</label>-->
+    <!--      <p-chart id="totalFireSizeData" class="col-12" type="line" [data]="totalFireSizeData"-->
+    <!--               [options]="options"></p-chart>-->
+    <!--    </div>-->
+    <div>
+      <label for="totalFireNumData">Total Fire Count</label>
+      <p-chart id="totalFireNumData" class="col-12" type="line" [data]="totalFireNumData" [options]="options"></p-chart>
     </div>
   </div>
-</div>
+</form>

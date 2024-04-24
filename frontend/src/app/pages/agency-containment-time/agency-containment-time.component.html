@@ -1,85 +1,89 @@
-<div
-  class="grid"
-  style="
-    background-color: var(--surface-section);
-    color: var(--surface-800);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  "
->
-  <div
-    class=""
-    style="
-      padding: 3rem;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    "
-  >
-    <section>
-      <div>
-        <span style="font-weight: 700; font-size: 3rem; display: block"
-          >Agency Containment Time vs Wildfire Size</span
-        >
+<form class="content-section" (ngSubmit)="submitContainmentForm()">
+  <h1>Agency Containment Time vs Wildfire Size</h1>
+  <p class="description">Select a category to view data and trends</p>
+  <div class="flex flex-column gap-2">
+    <div class="flex flex-row gap-1">
+      <div class="col-4 card">
+        <label>Start Year</label>
+        <input
+          type="text"
+          pInputText
+          [ngModel]="startDate$()"
+          (ngModelChange)="startDate$.set($event)"
+          [disabled]="!dataReady"
+          name="startYear"
+          min="1900"
+          max="2100"
+        />
       </div>
-      <p
-        style="
-          color: var(--surface-700);
-          line-height: 1.5;
-          margin-bottom: 1.5rem;
-          font-size: 1.25rem;
-        "
-      >
-        Select a category to view data and trends:
-      </p>
-      <div>
-        <div>
-          <label for="timeRangeStart">Time Range Start: </label>
-          <select id="timeRangeStart">
-            <option value="2020">2020</option>
-            <option value="2021">2021</option>
-            <option value="2022">2022</option>
-            <input type="text" placeholder="User Input" />
-            <!-- Add more options as needed -->
-          </select>
-          <input type="text" placeholder="User Input" />
-        </div>
-        <br />
-        <div>
-          <label for="timeRangeEnd">Time Range End: </label>
-          <select id="timeRangeEnd">
-            <option value="2020">2020</option>
-            <option value="2021">2021</option>
-            <option value="2022">2022</option>
-            <!-- Add more options as needed -->
-          </select>
-
-          <input type="text" placeholder="User Input" />
-        </div>
-        <br />
-        <div>
-          <label for="agency">Reporting Agency (Optional): </label>
-          <input type="text" placeholder="Agency" />
-        </div>
+      <div class="col-4 card">
+        <label>End Year</label>
+        <input
+          type="text"
+          pInputText
+          [ngModel]="endDate$()"
+          (ngModelChange)="endDate$.set($event)"
+          [disabled]="!dataReady"
+          name="endYear"
+          min="1900"
+          max="2100"
+        />
       </div>
-    </section>
+      <div class="col-4 card">
+        <label for="reportingAgencies">Reporting Agency</label>
+        <p-multiSelect
+          [options]="reportingAgencyOpts"
+          [ngModel]="reportingAgencies$()"
+          (ngModelChange)="reportingAgencies$.set($event)"
+          [disabled]="!dataReady"
+          optionLabel="name"
+          [showClear]="true"
+          placeholder="Select a City"
+          name="reportingAgencies"
+          id="reportingAgencies"></p-multiSelect>
+      </div>
+    </div>
+    <div class="flex flex-row gap-1">
+      <div class="col-4 card">
+        <button pButton type="submit" class="btn-primary"
+                [disabled]="!dataReady || !reportingAgencies$() || !startDate$() || !endDate$()">View Results
+        </button>
+      </div>
+    </div>
+    <div class="flex flex-column gap-2">
+      <!-- Scatter Plot -->
+      <div>
+        <label for="scatterDataOne">Containment Time vs. Average Fire Size</label>
+        <p-chart
+          id="scatterDataOne"
+          type="scatter"
+          [data]="scatterDataOne$()"
+          [options]="scatterOpts"
+        ></p-chart>
+      </div>
 
-    <!-- Container for the graphical trend data -->
-    <div
-      id="chartContainer"
-      style="
-        margin-top: 2rem;
-        width: 100%;
-        max-width: 1000px;
-        height: 600px;
-        background-color: white;
-        border: 1px solid #cccccc;
-      "
-    >
-      <!-- The chart will be rendered inside this div -->
+      <!-- Scatter Plot -->
+      <!--      <div>-->
+      <!--        <label for="scatterDataTwo">Containment Time Over the Years</label>-->
+      <!--        <p-chart-->
+      <!--          id="scatterDataTwo"-->
+      <!--          type="scatter"-->
+      <!--          [data]="scatterDataTwo$()"-->
+      <!--          [options]="scatterOpts"-->
+      <!--        ></p-chart>-->
+      <!--      </div>-->
+
+      <!--      &lt;!&ndash; Bar Chart &ndash;&gt;-->
+      <!--      <div>-->
+      <!--        <label for="barChartData">Total Fires by Agency</label>-->
+      <!--        <p-chart-->
+      <!--          id="barChartData"-->
+      <!--          type="bar"-->
+      <!--          [data]="barChartData$()"-->
+      <!--          [options]="options"-->
+      <!--        ></p-chart>-->
+      <!--      </div>-->
     </div>
   </div>
-</div>
+</form>
+

@@ -1,85 +1,91 @@
-<div
-  class="grid"
-  style="background-color: var(--surface-section); color: var(--surface-800); display: flex; justify-content: center; align-items: center; height: 100vh;"
->
-  <div
-    class=""
-    style="padding: 3rem; text-align: center; display: flex; flex-direction: column; align-items: center"
-  >
-    <section>
-      <span style="font-weight: 700; font-size: 3rem; display: block"
-        >Welcome</span
-      >
-      <div
-        style="
-          font-weight: 700;
-          color: var(--primary-color);
-          font-size: 3rem;
-          margin-bottom: 1rem;
-        "
-      >
-        Explore Wildfire Analytics
-      </div>
-      <p
-        style="
-          color: var(--surface-700);
-          line-height: 1.5;
-          margin-bottom: 1.5rem;
-          font-size: 1.25rem;
-        "
-      >
-        Select a category to view data and trends:
-      </p>
-      <div style="margin-bottom: 1em;">
-        <button
-          pButton
-          pRipple
-          label="Wildfires: Changes in Size and Frequency"
-          type="button"
-          class="p-button-raised"
-          [routerLink]="['/wildfire-changes-in-size-and-frequency']"
-        ></button>
-      </div>
-      <div style="margin-bottom: 1em;">
-        <button
-          pButton
-          pRipple
-          label="Wildfire Types Based on Geography"
-          type="button"
-          class="p-button-raised"
-          [routerLink]="['/wildfire-types-geography']"
-        ></button>
-      </div>
-      <div style="margin-bottom: 1em;">
-        <button
-          pButton
-          pRipple
-          label="Agency Containment Time vs Wildfire Size"
-          type="button"
-          class="p-button-raised"
-          [routerLink]="['/containment-vs-size']"
-        ></button>
-      </div>
-      <div style="margin-bottom: 1em;">
-        <button
-          pButton
-          pRipple
-          label="Size of Wildfire Types"
-          type="button"
-          class="p-button-raised"
-          [routerLink]="['/wildfire-types-size']"
-        ></button>
-      </div>
-      <div>
-        <button
-          pButton
-          pRipple
-          label="Wildfire Sizes Based on Geography"
-          type="button"
-          class="p-button-raised"
-          [routerLink]="['/wildfire-sizes-geography']"
-        ></button>
-      </div>
-    </section>
-  </div>
+<div class="grid" [style]="{'margin-top': '10vh'}">
+  <p-card header="General Searching, Filtering, & Information" subheader="Ad-hoc availability to the database"
+          class="p-card">
+    <div class="flex flex-column gap-2">
+      <button
+        pButton
+        pRipple
+        label="Get Database Status"
+        type="button"
+        class="p-button-raised"
+        [routerLink]="['/status']"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Search Fire Incidents"
+        type="button"
+        class="p-button-raised"
+        [routerLink]="['/fire-incident-search']"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Search NWCG Units"
+        type="button"
+        class="p-button-raised"
+        [routerLink]="['/nwcg-unit-search']"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Search Reporting Agencies"
+        type="button"
+        class="p-button-raised"
+        [routerLink]="['/reporting-agency-search']"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Example Trend Queries"
+        type="button"
+        class="p-button-raised"
+        [routerLink]="['/example-trend-queries']"
+      ></button>
+    </div>
+  </p-card>
+  <p-card header="Complex Trend Queries" subheader="Predefined deep dives into the data" class="p-card">
+    <div class="flex flex-column gap-2">
+      <button
+        pButton
+        pRipple
+        label="Changes in Wildfire Size and Frequency"
+        type="button"
+        class="p-button-raised"
+        [routerLink]="['/wildfire-changes-in-size-and-frequency']"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Wildfire Types Based on Geography"
+        type="button"
+        class="p-button-raised"
+        [routerLink]="['/wildfire-types-geography']"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Wildfire Sizes Based on Geography"
+        type="button"
+        class="p-button-raised"
+        [routerLink]="['/wildfire-sizes-geography']"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Wildfire Sizes Based on Type"
+        type="button"
+        class="p-button-raised"
+        [routerLink]="['/wildfire-types-size']"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Agency Containment Time vs Wildfire Size"
+        type="button"
+        class="p-button-raised"
+        [routerLink]="['/containment-vs-size']"
+      ></button>
+    </div>
+  </p-card>
 </div>

@@ -1,0 +1,100 @@
+<div class="ml-3 flex flex-column gap-2">
+  <h2>Wildfire Changes in Size and Frequency</h2>
+  <p>
+    SELECT<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;AVG(size_acres) AS avg_fire_size,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;COUNT(id) AS total_number_of_fires,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;SUM(size_acres) AS total_fires_size<br/>
+    FROM "FireIncident"<br/>
+    WHERE<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire >= 2002 AND year_of_fire <= 2010<br/>
+    GROUP BY year_of_fire<br/>
+    ORDER BY year_of_fire<br/>
+  </p>
+  <h2>Wildfire Types Based on Geography</h2>
+  <p>
+    SELECT<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;cause_description,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;avg(size_acres) AS avg_fire_size,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;count(id) AS total_number_of_fires,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;sum(size_acres) AS total_fires_size,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;count(cause_description) AS fire_type<br/>
+    FROM "FireIncident"<br/>
+    JOIN "ReportingAgency" ON "FireIncident".agency_code_id = "ReportingAgency".agency_code<br/>
+    JOIN "NWCGUnit" ON "ReportingAgency".reporting_unit_id = "NWCGUnit".unit_id<br/>
+    WHERE<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire >= 2002 AND year_of_fire <= 2014<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;AND geographic_area_code = 'USCAONCC'<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;AND cause_description = 'Lightning'<br/>
+    GROUP BY<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire, cause_description, geographic_area_code<br/>
+    ORDER BY<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire, total_number_of_fires DESC<br/>
+  </p>
+
+  <h2>Agency Containment Time vs. Wildfire Size</h2>
+  <p>
+    SELECT<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;distinct year_of_fire,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;reporting_unit_name,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;(containment_datetime - discovery_datetime) AS time_to_contain,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;count(id) AS total_fires,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;avg(size_acres) AS avg_size_of_fires<br/>
+    FROM "FireIncident"<br/>
+    JOIN "ReportingAgency" ON "FireIncident".agency_code_id = "ReportingAgency".agency_code<br/>
+    JOIN "NWCGUnit" ON "ReportingAgency".reporting_unit_id = "NWCGUnit".unit_id<br/>
+    WHERE<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;containment_datetime IS NOT NULL AND<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;discovery_datetime IS NOT NULL AND<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;(containment_datetime - discovery_datetime) <= 500 AND<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire >= 2002 AND year_of_fire <= 2014<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;AND "ReportingAgency".agency_code = 'BLM'<br/>
+    GROUP BY<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire, reporting_unit_name,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;(containment_datetime - discovery_datetime)<br/>
+    ORDER BY<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire, reporting_unit_name<br/>
+  </p>
+
+  <h2>Size of Wildfire Types</h2>
+  <p>
+    SELECT<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;"ReportingAgency".agency_name,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;count(id) AS fires,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;avg(size_acres) AS avg_fire_size,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;max(size_acres) AS largest_fire_size<br/>
+    FROM "FireIncident"<br/>
+    JOIN "ReportingAgency" ON "FireIncident".agency_code_id = "ReportingAgency".agency_code<br/>
+    JOIN "NWCGUnit" ON "ReportingAgency".reporting_unit_id = "NWCGUnit".unit_id<br/>
+    WHERE<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire >= 2002 AND year_of_fire <= 2014<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;AND "ReportingAgency".agency_code = 'BLM'<br/>
+    GROUP BY<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire, "ReportingAgency".agency_name<br/>
+    ORDER BY<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire, "ReportingAgency".agency_name<br/>
+  </p>
+
+  <h2>Wildfire Sizes Based on State</h2>
+  <p>
+    SELECT<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;state_affiliation,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;count(id) AS fires,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;avg(size_acres) AS avg_fire_size,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;max(size_acres) AS largest_fire_size<br/>
+    FROM "FireIncident"<br/>
+    JOIN "ReportingAgency" ON "FireIncident".agency_code_id = "ReportingAgency".agency_code<br/>
+    JOIN "NWCGUnit" ON "ReportingAgency".reporting_unit_id = "NWCGUnit".unit_id<br/>
+    WHERE<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire >= 2002 AND year_of_fire <= 2012<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;AND state_affiliation = 'AZ'<br/>
+    GROUP BY<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire, state_affiliation<br/>
+    ORDER BY<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;year_of_fire, state_affiliation<br/>
+  </p>
+</div>

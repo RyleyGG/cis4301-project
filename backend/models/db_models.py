@@ -39,6 +39,7 @@ class FireIncident(SQLModel, table=True):
 class ReportingAgency(SQLModel, table=True):
     __tablename__ = 'ReportingAgency'
     agency_code: str = Field(sa_column=Column(String(255), primary_key=True))
+    agency_name: Optional[str] = Field(sa_column=Column(String(255)))
     # This is purposefully not a foreign key to NWCGUnit to allow us to store data
     # on agencies that may not have associated NWCGUnit entries
     reporting_unit_id: str = Field(sa_column=Column(String(255), primary_key=True))
@@ -49,7 +50,8 @@ class NWCGUnit(SQLModel, table=True):
     __tablename__ = 'NWCGUnit'
     unit_id: str = Field(sa_column=Column(String(255), primary_key=True))
     parent_agency: Optional[str] = Field(default=None, sa_column=Column(String(255)))
-    agency_name: str = Field(sa_column=Column(String(255)))
+    agency_name: Optional[str] = Field(sa_column=Column(String(255)))
+    agency_code: str = Field(default=None, sa_column=Column(String(255)))
     department_or_state: Optional[str] = Field(default=None, sa_column=Column(String(255)))
     wildland_role: str = Field(sa_column=Column(String(50)))
     geographic_area_code: str = Field(sa_column=Column(String(50)))
